@@ -1,6 +1,7 @@
 #!/bin/bash
 export IDES_HOME=${HOME}/ides
-export ECLIPSE_HOME=${IDES_HOME}/eclipse/lunajee/eclipse
+export ECLIPSE_VERSION_NAME=lunajee
+export ECLIPSE_HOME=${IDES_HOME}/eclipse/${ECLIPSE_VERSION_NAME}/eclipse
 export WORKSPACES_HOME=${HOME}/workspaces
 export WORKSPACE_HOME=${WORKSPACES_HOME}/jaulp.core
 export ECLIPSE_EXECUTABLE=${ECLIPSE_HOME}/eclipse
