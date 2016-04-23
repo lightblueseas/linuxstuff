@@ -83,7 +83,7 @@ Now you can create directories for useful IDE's. You do that with the following 
 mkdir ~/ides && mkdir ~/ides/eclipse && mkdir ~/ides/netbeans && mkdir ~/ides/jedit && mkdir ~/ides/androidstudios
 ```
 
-Create a directory for workspaces, tmp, apps and development. You do that with the following command:
+Create directories for workspaces(wss), tmp, apps and development(dev). You do that with the following command:
 ```shell
 mkdir ~/wss && mkdir ~/dev && mkdir ~/tmp && mkdir ~/apps
 ```
