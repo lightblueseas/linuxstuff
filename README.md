@@ -4,7 +4,9 @@
 
 1. install clip it. You do that with the following command:
 
+```bash
 sudo apt-get update && sudo apt-get install clipit
+```
 
 2. install zsh: You do that with the following command:
 
