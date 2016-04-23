@@ -2,13 +2,13 @@
 
 # initial install of ubuntu os with usefull tools for development
 
-* Install clip it. You do that with the following command:
+### Install clip it. You do that with the following command:
 
 ```shell
 sudo apt-get update && sudo apt-get install clipit
 ```
 
-* Install zsh: You do that with the following command:
+### Install zsh: You do that with the following command:
 ```shell
 sudo apt install zsh
 ```
@@ -33,13 +33,15 @@ this should be the output:
 
 A similar install description of zsh is on this link https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH.
 
-+ Install git
+### Install git
 ```shell
 sudo apt-get install git
 ```
-+ Install now Oh-My-Zsh. This description is the same as on the github page :-)
++ 
 
-### Basic Installation
+### Install of Oh-My-Zsh
+
+This description is the same as on the github page of Oh-My-Zsh.
 
 Oh My Zsh is installed by running one of the following commands in your terminal. You can install this via the command-line with either `curl` or `wget`.
 
