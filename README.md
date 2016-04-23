@@ -58,6 +58,6 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
 
-A better install description of zsh is on this link [github.com/robbyrussell/oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
+A better install description of Oh-My-Zsh is on this link [github.com/robbyrussell/oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
 
 
