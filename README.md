@@ -29,6 +29,8 @@ echo $SHELL
 this should be the output: 
 /usr/bin/zsh
 
-3. Install now Oh-My-Zsh. For this see first the recommended version on homepage https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH.
+A similar install description is of zsh is on this link https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH.
+
+3. Install now Oh-My-Zsh. 
 
 
