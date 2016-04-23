@@ -14,11 +14,21 @@ sudo apt install zsh
 
 zsh --version
 
-2.2 Zsh set as your default shell. 
+2.2 Set zsh as your default shell.
+
+chsh -s $(which zsh)
+
+2.3 Verify that zsh set as your default shell. 
 
 echo $SHELL
 
-if this gives /bin/bash out than you have to seht zsh to the default shell with this command:
+if this gives /bin/bash out than you have to log out from ubuntu or reboot and login again. Than verify again that zsh is set as your default shell. 
 
-chsh -s $(which zsh)
+echo $SHELL
+
+this should be the output: 
+/usr/bin/zsh
+
+3. Install now Oh-My-Zsh. For this see first the recommended version on homepage https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH.
+
 
