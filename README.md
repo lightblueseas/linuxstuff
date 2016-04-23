@@ -41,9 +41,13 @@ sudo apt-get install git
 
 ### Install of Oh-My-Zsh
 
-This description is the same as on the github page of Oh-My-Zsh.
+Create the git directory and change to it before you execute the commands for install the Oh-My-Zsh. 
+```shell
+mkdir ~/git && cd git
+```
+This will install the Oh-My-Zsh in the directory ~/git/oh-my-zsh with the following description.
 
-Oh My Zsh is installed by running one of the following commands in your terminal. You can install this via the command-line with either `curl` or `wget`.
+You can now install Oh-My-Zsh with the command-line either `curl` or `wget`.
 
 #### via curl
 
