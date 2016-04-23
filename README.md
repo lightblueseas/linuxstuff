@@ -31,7 +31,7 @@ echo $SHELL
 this should be the output: 
 /usr/bin/zsh
 
-A similar install description of zsh is on this link https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH.
+A better install description of zsh is on this link https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH.
 
 ### Install git
 ```shell
@@ -58,6 +58,6 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
 
-
+A better install description of zsh is on this link [](https://github.com/robbyrussell/oh-my-zsh)
 
 
