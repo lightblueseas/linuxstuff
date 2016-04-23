@@ -20,7 +20,7 @@ zsh --version
 ```shell
 chsh -s $(which zsh)
 ```
-2.3 Verify that zsh set as your default shell. 
++ Verify that zsh set as your default shell. 
 ```shell
 echo $SHELL
 ```
@@ -33,7 +33,11 @@ this should be the output:
 
 A similar install description of zsh is on this link https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH.
 
-3. Install now Oh-My-Zsh. This description is the same as on the github page :-)
++ Install git
+```shell
+sudo apt-get install git
+```
++ Install now Oh-My-Zsh. This description is the same as on the github page :-)
 
 ### Basic Installation
 
