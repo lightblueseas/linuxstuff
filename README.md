@@ -78,7 +78,12 @@ A better install description of install jdk on ubuntu is on this link [webupd8.o
 
 ### Create default directories 
 
-Now you can create directories for useful IDE's.  You do that with the following command:
+Now you can create directories for useful IDE's. You do that with the following command:
 ```shell
 mkdir ~/ides && mkdir ~/ides/eclipse && mkdir ~/ides/netbeans && mkdir ~/ides/jedit && mkdir ~/ides/androidstudios
+```
+
+Create a directory for workspaces, tmp, apps and development. You do that with the following command:
+```shell
+mkdir ~/wss && mkdir ~/dev && mkdir ~/tmp && mkdir ~/apps
 ```
