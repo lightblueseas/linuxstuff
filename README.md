@@ -61,3 +61,17 @@ sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/to
 A better install description of Oh-My-Zsh is on this link [github.com/robbyrussell/oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
 
 
+### Install java jdk
+
+For install the java jdk you have to add a repository. This is the ppa:webupd8team/java. You do that with the following command:
+
+```shell
+sudo add-apt-repository ppa:webupd8team/java
+```
+
+Then you have to update first and the install the jdk:
+```shell
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+```
+A better install description of install jdk on ubuntu is on this link[webupd8.org](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html)
