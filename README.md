@@ -75,3 +75,4 @@ sudo apt-get update
 sudo apt-get install oracle-java8-installer
 ```
 A better install description of install jdk on ubuntu is on this link [webupd8.org](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html)
+
