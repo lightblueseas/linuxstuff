@@ -2,21 +2,21 @@
 
 # initial install of ubuntu os with usefull tools for development
 
-1. install clip it. You do that with the following command:
+* Install clip it. You do that with the following command:
 
 ```bash
 sudo apt-get update && sudo apt-get install clipit
 ```
 
-2. install zsh: You do that with the following command:
-
+* Install zsh: You do that with the following command:
+```bash
 sudo apt install zsh
-
-2.1 Verify that zsh is installed:
+```
++ Verify that zsh is installed:
 
 zsh --version
 
-2.2 Set zsh as your default shell.
++ Set zsh as your default shell.
 
 chsh -s $(which zsh)
 
