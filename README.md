@@ -37,15 +37,12 @@ A similar install description of zsh is on this link https://github.com/robbyrus
 ```shell
 sudo apt-get install git
 ```
-+ 
-
-### Install of Oh-My-Zsh
-
-Create the git directory and change to it before you execute the commands for install the Oh-My-Zsh. 
+Create the git directory and change to it. 
 ```shell
 mkdir ~/git && cd git
 ```
-This will install the Oh-My-Zsh in the directory ~/git/oh-my-zsh with the following description.
+
+### Install of Oh-My-Zsh
 
 You can now install Oh-My-Zsh with the command-line either `curl` or `wget`.
 
