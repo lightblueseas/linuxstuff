@@ -13,21 +13,21 @@ sudo apt-get update && sudo apt-get install clipit
 sudo apt install zsh
 ```
 + Verify that zsh is installed:
-
+```bash
 zsh --version
-
+```
 + Set zsh as your default shell.
-
+```bash
 chsh -s $(which zsh)
-
+```
 2.3 Verify that zsh set as your default shell. 
-
+```bash
 echo $SHELL
-
+```
 if this gives /bin/bash out than you have to log out from ubuntu or reboot and login again. Than verify again that zsh is set as your default shell. 
-
+```bash
 echo $SHELL
-
+```
 this should be the output: 
 /usr/bin/zsh
 
