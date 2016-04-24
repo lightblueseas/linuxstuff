@@ -87,6 +87,20 @@ Create directories for workspaces(wss), tmp, apps and development(dev). You do t
 ```shell
 mkdir ~/wss && mkdir ~/dev  && mkdir ~/dev/servers && mkdir ~/tmp && mkdir ~/apps
 ```
+### Install Ubuntu Tweak
+
+For install the Ubuntu Tweak you have to add a repository. This is the ppa:tualatrix/ppa. You do that with the following command:
+
+```shell
+sudo add-apt-repository ppa:tualatrix/ppa
+```
+
+Then you have to update first and the install the Ubuntu Tweak:
+```shell
+sudo apt-get update
+sudo apt-get install ubuntu-tweak
+```
+A detailed install description(in german) of install Ubuntu Tweak on ubuntu is on this link [https://wiki.ubuntuusers.de/Ubuntu_Tweak/](https://wiki.ubuntuusers.de/Ubuntu_Tweak/)
 
 ## Install IDE's
 
