@@ -96,3 +96,7 @@ To install jedit download the java installer from jedit.org. The link for versio
 
 For install plugins DO NOT USE the integrated plugin manager. I downloaded once from the plugin manager and many plugins does not load. So download every plugin that you really need manually.
 
+### Install netbeans
+
+For install netbeans you have to download the os indipendent zip file. Than you can install it to the appropriate directory ~/ides/netbeans/ and any servers(like glassfish or tomcat) to the the appropriate directory ~/dev/servers
+
