@@ -31,7 +31,7 @@ echo $SHELL
 this should be the output: 
 /usr/bin/zsh
 
-A better install description of zsh is on this link https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH.
+A detailed install description of zsh is on this link https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH.
 
 ### Install git
 ```shell
@@ -58,7 +58,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
 
-A better install description of Oh-My-Zsh is on this link [github.com/robbyrussell/oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
+A detailed install description of Oh-My-Zsh is on this link [github.com/robbyrussell/oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
 
 
 ### Install java jdk
@@ -74,7 +74,7 @@ Then you have to update first and the install the jdk:
 sudo apt-get update
 sudo apt-get install oracle-java8-installer
 ```
-A better install description of install jdk on ubuntu is on this link [webupd8.org](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html)
+A detailed install description of install jdk on ubuntu is on this link [webupd8.org](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html)
 
 ### Create default directories 
 
