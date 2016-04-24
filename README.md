@@ -87,3 +87,12 @@ Create directories for workspaces(wss), tmp, apps and development(dev). You do t
 ```shell
 mkdir ~/wss && mkdir ~/dev && mkdir ~/tmp && mkdir ~/apps
 ```
+
+## Install IDE's
+
+### Install jedit
+
+To install jedit download the java installer from jedit.org. The link for version 5.3.0 is [http://sourceforge.net/projects/jedit/files/jedit/5.3.0/jedit5.3.0install.jar/download](http://sourceforge.net/projects/jedit/files/jedit/5.3.0/jedit5.3.0install.jar/download)
+
+For install plugins DO NOT USE the integrated plugin manager. I downloaded once from the plugin manager and many plugins does not load. So download every plugin that you really need manually.
+
