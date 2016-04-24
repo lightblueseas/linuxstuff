@@ -85,7 +85,7 @@ mkdir ~/ides && mkdir ~/ides/eclipse && mkdir ~/ides/netbeans && mkdir ~/ides/je
 
 Create directories for workspaces(wss), tmp, apps and development(dev). You do that with the following command:
 ```shell
-mkdir ~/wss && mkdir ~/dev && mkdir ~/tmp && mkdir ~/apps
+mkdir ~/wss && mkdir ~/dev  && mkdir ~/dev/servers && mkdir ~/tmp && mkdir ~/apps
 ```
 
 ## Install IDE's
