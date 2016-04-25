@@ -5,43 +5,21 @@
 set -o verbose
 # settings 
 remoteGithubHost=github.com
-remoteOrgUser=lightblueseas
+remoteOrgUser=astrapi69
 localCodeDir="${HOME}/git/"
 githubRepositoryNames=(
-"jfugue-core" 
-"mvn-parent-projects" 
-"linuxstuff" 
-"knockout-doc-examples" 
-"payment-system-data" 
-"order-management-data" 
-"user-management-data"
-"file-worker"
-"swing-components"
-"silly-collections"
-"email-tails"
-"gen-tree"
-"jcommons-lang"
-"net-extensions"
-"test-objects"
-"vintage-time"
-"xml-extensions"
-"resource-system-data"
-"address-book-data"
-"resource-bundles-data"
-"message-system-data"
-"phone-data-management-system"
-"scheduler-system-data"
-"dating-system-data"
-"event-system-data"
-"rating-system-data"
-"persistence-api"
-"server-configurations"
-"wicket-js-addons"
-"mvn-less-css"
-"design-patterns"
-"wicket-application-template"
-"freelancerdocs"
-"sitedocs")
+"jgeohash"
+"jaulp.wicket"
+"mystic-crypt"
+"resourcebundle-core"
+"turbo-ninja"
+"jetty-runner"
+"wicket.component.authorization.strategy"
+"wicket-angular-js"
+"redundant-file-entries-resolver"
+"wicket-examples"
+"jquery-dropdowntrigger"
+"c10n.interface.generator")
 
 cd $localCodeDir
 pwd
