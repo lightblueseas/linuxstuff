@@ -1,5 +1,5 @@
 #!/bin/zsh
-# import multiple remote git repositories to local git dir
+# import remote git repositories to local git dir
 
 # Echoes all commands before executing.
 set -o verbose
