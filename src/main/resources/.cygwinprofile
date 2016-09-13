@@ -1,0 +1,6 @@
+
+# Same as in .profile and add the following lines for cygwin specific command aliases
+#
+# aliases
+alias changeDirToC="cd /cygdrive/c"
+alias cdc="cd /cygdrive/c"
