@@ -1,11 +1,11 @@
 # This are some aliases for commands i use often
 #
 # aliases
-alias ls="ls -al"
 # aliasies for mvn commands
 alias mci="mvn clean install -DskipTests=true"
 # aliasies for directory commands
 alias c="cd ..; pwd"
+alias ls="ls -al"
 # aliasies for git commands
 alias gp="git pull"
 alias gfgmdev="git fetch; git merge origin/master --ff-only"
