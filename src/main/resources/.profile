@@ -22,6 +22,8 @@ alias lpf="source ~/.profile; . ~/.profile"
 # aliasies for npm commands
 alias npminst="npm install"
 alias npmi="npm install"
+alias npmit="npm init"
 # aliasies for bower commands
 alias bowerinst="bower install"
 alias bowi="bower install"
+alias bowh="bower --help"
