@@ -1,0 +1,5 @@
+# This are some aliases for commands i use often for cygwin
+#
+# aliasies for directory commands
+alias changeDirToC="cd /cygdrive/c"
+alias cdc="cd /cygdrive/c"
