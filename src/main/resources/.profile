@@ -18,6 +18,8 @@ alias listremoteBranches="git branch -r"
 alias lrb="git branch -r"
 alias deletelocalbranch="git branch -d"
 alias dlb="git branch -d"
+alias createnewbranch="git checkout -b"
+alias cnb="git checkout -b"
 # aliasies for source commands
 alias loadProfileFile="source ~/.profile; . ~/.profile"
 alias lpf="source ~/.profile; . ~/.profile"
