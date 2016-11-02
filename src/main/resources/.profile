@@ -20,6 +20,7 @@ alias deletelocalbranch="git branch -d"
 alias dlb="git branch -d"
 alias createnewbranch="git checkout -b"
 alias cnb="git checkout -b"
+alias gcm="git checkout master"
 # aliasies for source commands
 alias loadProfileFile="source ~/.profile; . ~/.profile"
 alias lpf="source ~/.profile; . ~/.profile"
