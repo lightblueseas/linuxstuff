@@ -32,11 +32,11 @@ alias lpf="source ~/.profile; . ~/.profile"
 alias npminst="npm install"
 alias npmi="npm install"
 alias ni="npm install"
-alias bi="bower install"
 alias npmit="npm init"
 # aliasies for bower commands
 alias bowerinst="bower install"
 alias bowi="bower install"
+alias bi="bower install"
 alias bowh="bower --help"
 # aliasies for gulp commands
 alias gpcl="gulp clean"
@@ -57,9 +57,16 @@ mkcd () {
 # Clean and build a node project
 ##
 cleanAndBuildNode () {
+	echo '$ git pull'
+	git pull
+	echo '$ rm -rf bower_components/ node_modules/'
 	rm -rf bower_components/ node_modules/
+	echo '$ bower install'
 	bower install
+	echo '$ npm install'
 	npm install
+	echo '$ gulp clean'
 	gulp clean
+	echo '$ gulp build'
 	gulp build
 }
