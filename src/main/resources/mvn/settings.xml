@@ -1,0 +1,35 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                        https://maven.apache.org/xsd/settings-1.0.0.xsd">
+	<localRepository />
+	<interactiveMode />
+	<usePluginRegistry />
+	<offline />
+	<pluginGroups />
+	<servers>
+		<server>
+			<id>ossrh</id>
+			<username>YOUR-USERNAME</username>
+			<password>YOUR-PW-FROM-SONATYPE-REGISTRATION</password>
+		</server>
+	</servers>
+	<mirrors />
+	<proxies />
+	<profiles>
+		<profile>
+			<id>ossrh</id>
+			<properties>
+				<gpg.keyname>YOUR-KEYNAME</gpg.keyname>
+				<gpg.passphrase>YOUR-PASSPHRASE</gpg.passphrase>
+				<gpg.defaultKeyring>false</gpg.defaultKeyring>
+				<gpg.useagent>true</gpg.useagent>
+				<gpg.lockMode>never</gpg.lockMode>
+				<gpg.homedir>/home/YOUR-USERNAME/.gnupg</gpg.homedir>
+				<gpg.publicKeyring>/home/YOUR-USERNAME/.gnupg/pubring.gpg</gpg.publicKeyring>
+				<gpg.secretKeyring>/home/YOUR-USERNAME/.gnupg/secring.gpg</gpg.secretKeyring>
+			</properties>
+		</profile>
+	</profiles>
+	<activeProfiles />
+</settings>
