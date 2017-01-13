@@ -1,0 +1,35 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                        https://maven.apache.org/xsd/settings-1.0.0.xsd">
+	<localRepository />
+	<interactiveMode />
+	<usePluginRegistry />
+	<offline />
+	<pluginGroups />
+	<servers>
+		<server>
+			<id>ossrh</id>
+			<username>albert77</username>
+			<password>VerYSEcteT?</password>
+		</server>
+	</servers>
+	<mirrors />
+	<proxies />
+	<profiles>
+		<profile>
+			<id>ossrh</id>
+			<properties>
+				<gpg.keyname>CA578C7C</gpg.keyname>
+				<gpg.passphrase>Foo8-bar?</gpg.passphrase>
+				<gpg.defaultKeyring>false</gpg.defaultKeyring>
+				<gpg.useagent>true</gpg.useagent>
+				<gpg.lockMode>never</gpg.lockMode>
+				<gpg.homedir>/home/albert77/.gnupg</gpg.homedir>
+				<gpg.publicKeyring>/home/albert77/.gnupg/pubring.gpg</gpg.publicKeyring>
+				<gpg.secretKeyring>/home/albert77/.gnupg/secring.gpg</gpg.secretKeyring>
+			</properties>
+		</profile>
+	</profiles>
+	<activeProfiles />
+</settings>
