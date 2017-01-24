@@ -7,6 +7,7 @@ alias a="alias"
 alias mci="mvn clean install -DskipTests=true"
 # aliasies for directory commands
 alias c="cd ..; pwd"
+alias cdd="cd ."
 alias ls="ls -al"
 alias rmbn="rm -rf bower_components/ node_modules/"
 # aliasies for git commands
