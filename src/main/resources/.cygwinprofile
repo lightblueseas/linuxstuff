@@ -1,6 +1,9 @@
 
 # Same as in .profile and add the following lines for cygwin specific command aliases
 #
-# aliases
+# filesystem aliases
 alias changeDirToC="cd /cygdrive/c"
 alias cdc="cd /cygdrive/c"
+alias changeDirToProject="cd /cygdrive/c/dev/git/" # set project
+alias cdtp="cd /cygdrive/c/dev/git/" # set project
+alias cdev="cd /cygdrive/c/dev"
