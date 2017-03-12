@@ -1,4 +1,14 @@
 #!/bin/bash
+projectNames=(
+"persistence-api"
+"user-data"
+"address-book-data"
+"resource-system-data"
+"resource-bundles-data"
+"user-management-data"
+"message-system-data"
+"dating-system-data")
+
 cd ~/git/persistence-api
 mvn -B -Dmaven.test.skip=true -DskipTests --threads 8 clean install
 cd ~/git/user-data
