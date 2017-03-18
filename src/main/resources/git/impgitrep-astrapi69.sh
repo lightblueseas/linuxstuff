@@ -31,6 +31,7 @@ do
    if [[ -d $localRepoDir ]]; then 
 		echo -e "Directory $localRepoDir already exits, skipping ...\n"
 	else   
+		cloneCmd="git clone https://$remoteUser@$remoteHost/$remoteDir/$projectName.git"
 		echo -e "Directory $localRepoDir does not exits, start clone repository ...\n"
 		echo -e "Running clone command: $cloneCmd \n"
 		git clone https://$remoteGithubHost/$remoteOrgUser/$gitRepo.git

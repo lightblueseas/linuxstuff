@@ -21,6 +21,7 @@ do
 		# if yes skip and continue the iteration
 		echo -e "Directory $localRepoDir already exits, skipping ...\n"
 	else 
+		cloneCmd="git clone https://$remoteUser@$remoteHost/$remoteDir/$projectName.git"
 		# if not then clone it and check out the develop branch  
 		echo -e "Directory $localRepoDir does not exits, start clone repository ...\n"
 		echo -e "Running clone command: $cloneCmd \n"

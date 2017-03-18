@@ -22,6 +22,7 @@ do
 		mvn -B -Dmaven.test.skip=true -DskipTests --threads 8 clean install
 		cd $localCodeDir			
 	else 
+		cloneCmd="git clone https://$remoteUser@$remoteHost/$remoteDir/$projectName.git"
 		# if not then clone it and check out the develop branch  
 		echo -e "Directory $localProjectDir does not exits, start clone repository ...\n"
 		echo -e "Running clone command: $cloneCmd \n"
