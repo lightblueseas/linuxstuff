@@ -1,0 +1,17 @@
+Before deploy a new release for mystic-crypt you have to remove the '-SNAPSHOT' tagging from the pom.xml files.
+
+This is the order to care for the '-SNAPSHOT' tagging:
+
+- mvn-parent-projects
+- mvn-java-parent
+- vintage-time
+- gen-tree
+- test-objects
+- net-extensions
+- silly-collections
+- jcommons-lang
+- file-worker
+- xml-extensions
+- resourcebundle-inspector
+|- email-tails
+- mystic-crypt

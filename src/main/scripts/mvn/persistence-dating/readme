@@ -1,0 +1,27 @@
+Before deploy a new release for persistence-api and the dating-system-data you have to remove the '-SNAPSHOT' tagging from the pom.xml files.
+
+This is the order to care for the '-SNAPSHOT' tagging:
+
+- mvn-parent-projects
+- mvn-java-parent
+- jetty-runner
+- mvn-persistence-parent
+- vintage-time
+- gen-tree
+- test-objects
+- net-extensions
+- silly-collections
+- jcommons-lang
+- file-worker
+- xml-extensions
+- resourcebundle-inspector
+- persistence-api
+- user-data
+- jgeohash
+|- address-book-data
+- resource-system-data
+- resource-bundles-data
+- user-management-data
+- message-system-data
+- rating-system-data
+- dating-system-data
