@@ -1,3 +1,7 @@
 # aliasies for mvn commands
 alias mci="mvn clean install -DskipTests=true"
+alias mcp="mvn clean package -DskipTests=true"
+alias mds="mvn dependency:sources -DskipTests=true"
+alias mecee="mvn eclipse:clean eclipse:eclipse -DskipTests=true"
+alias mcid="mvn clean install -Pdelombok-src-with-ant"
 alias mcds="mvn clean deploy -Poss.sonatype.org-staged-release"
