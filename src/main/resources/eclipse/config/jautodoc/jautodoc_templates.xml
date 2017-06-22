@@ -219,6 +219,41 @@
  * @param ${e} the ${e.rsfl()}
  */</text>
 </template>
+<template kind="5" name="Exception.InvalidKeySpecException" default="false" signature="false">
+    <regex>InvalidKeySpecException</regex>
+    <example>InvalidKeySpecException</example>
+    <text>/**
+ * @throws ${e} is thrown if generation of the SecretKey object fails.
+ */</text>
+</template>
+<template kind="5" name="Exception.InvalidAlgorithmParameterException" default="false" signature="false">
+    <regex>InvalidAlgorithmParameterException</regex>
+    <example>InvalidAlgorithmParameterException</example>
+    <text>/**
+ * @throws ${e} is thrown if initialization of the cypher object fails.
+ */</text>
+</template>
+<template kind="5" name="Exception.UnsupportedEncodingException" default="false" signature="false">
+    <regex>UnsupportedEncodingException</regex>
+    <example>UnsupportedEncodingException</example>
+    <text>/**
+ * @throws ${e} is thrown if the named charset is not supported.
+ */</text>
+</template>
+<template kind="5" name="Exception.NoSuchAlgorithmException" default="false" signature="false">
+    <regex>NoSuchAlgorithmException</regex>
+    <example>NoSuchAlgorithmException</example>
+    <text>/**
+ * @throws ${e} is thrown if instantiation of the SecretKeyFactory object fails.
+ */</text>
+</template>
+<template kind="5" name="Exception.CertificateEncodingException" default="false" signature="false">
+    <regex>CertificateEncodingException</regex>
+    <example>CertificateEncodingException</example>
+    <text>/**
+ * @throws ${e} is thrown if an encoding error occurs.
+ */</text>
+</template>
 <template kind="5" name="Exception.IOException" default="false" signature="false">
     <regex>IOException</regex>
     <example>IOException</example>
@@ -234,4 +269,3 @@
  */</text>
 </template>
 </templates>
-
