@@ -1,1 +1,6 @@
+# aliasies for directory commands
+alias c="cd ..; pwd"
 alias cdd="cd ."
+alias ls="ls -al"
+alias cdev="cd ~/dev"
+alias cdg="cd ~/git"
