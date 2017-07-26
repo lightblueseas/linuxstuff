@@ -7,3 +7,5 @@ alias cdc="cd /cygdrive/c"
 alias changeDirToProject="cd /cygdrive/c/dev/git/" # set project
 alias cdtp="cd /cygdrive/c/dev/git/" # set project
 alias cdev="cd /cygdrive/c/dev"
+alias cdg="cd /cygdrive/c/dev/git"
+alias cdd="cd ."
