@@ -9,5 +9,5 @@ alias cdtp="cd /cygdrive/c/dev/git/" # set project
 alias cdev="cd /cygdrive/c/dev"
 alias cdg="cd /cygdrive/c/dev/git"
 alias cdd="cd ."
-alias changeDirToWindowsUsers="/cygdrive/c/Users"
-alias cdtwu="/cygdrive/c/Users"
+alias changeDirToWindowsUsers="cd /cygdrive/c/Users"
+alias cdtwu="cd /cygdrive/c/Users"
