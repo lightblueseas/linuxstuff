@@ -11,3 +11,6 @@ alias cdg="cd /cygdrive/c/dev/git"
 alias cdd="cd ."
 alias changeDirToWindowsUsers="cd /cygdrive/c/Users"
 alias cdtwu="cd /cygdrive/c/Users"
+# change '{YOUR_USERNAME}' with the name of your windows username
+alias changeDirToWindowsUsersHome="cd /cygdrive/c/Users/{YOUR_USERNAME}"
+alias cdtwuh="cd /cygdrive/c/Users/{YOUR_USERNAME}"
