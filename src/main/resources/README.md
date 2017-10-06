@@ -18,6 +18,5 @@ If you want later to decrypt the zip-file 'docs.enc' change to the folder where 
 ```shell
 :~$  unzipAndDencrypt docs.enc
 ```
-
-This will unzip the zip-file 'docs.enc' in the current folder.
-
+You will be prompted to enter the password for the decryption of the zip-file. 
+If the password is correct the zip-file 'docs.enc' will be unzip in the current folder.
