@@ -1,6 +1,9 @@
 ## .zipping
 
-For zip a folder or a file you can use the alias functions for zipping.
+For zip a folder or a file you can use the alias functions for zipping. If not done you have to import the aliases from the .zipping file to your .profile.
+
+
+Here an example how to zip and unzip with encryption:
 
 Lets say you have a folder '/home/johndoe/docs' and you want to zip and encrypt it. Change from the shell to the home folder of the user johndoe '/home/johndoe' and execute the following command:
 
