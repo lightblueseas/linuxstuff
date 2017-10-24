@@ -4,3 +4,10 @@ alias cdd="cd ."
 alias ls="ls -al"
 alias cdev="cd ~/dev"
 alias cdg="cd ~/git"
+##
+# Create the given directory and change to it
+##
+mkcd () {
+    mkdir -p $1
+    cd $1
+}
