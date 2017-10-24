@@ -1,0 +1,5 @@
+# aliasies for bower commands
+alias bowerinst="bower install"
+alias bowi="bower install"
+alias bi="bower install"
+alias bowh="bower --help"
