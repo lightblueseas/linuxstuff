@@ -1,0 +1,6 @@
+# aliases
+# show all aliases that can be used here or elsewhere
+alias a="alias"
+# aliasies for source commands
+alias loadProfileFile="source ~/.profile; . ~/.profile"
+alias lpf="source ~/.profile; . ~/.profile"
