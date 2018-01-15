@@ -4,6 +4,8 @@ alias a="alias"
 # aliasies for source commands
 alias loadProfileFile="source ~/.profile; . ~/.profile"
 alias lpf="source ~/.profile; . ~/.profile"
+alias loadZshFile="source ~/.zshrc; . ~/.zshrc"
+alias lzf="source ~/.zshrc; . ~/.zshrc"
 # aliasies for bower commands
 alias bowerinst="bower install"
 alias bowi="bower install"
@@ -140,6 +142,9 @@ cleanup() {
    sudo apt-get autoclean
    sudo apt-get clean
    sudo apt-get autoremove
+   sudo apt-get update
+   sudo apt-get upgrade
+   sudo apt --fix-broken install
 }
 
 ##
