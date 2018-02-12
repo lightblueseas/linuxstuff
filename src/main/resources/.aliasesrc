@@ -6,3 +6,5 @@ alias loadProfileFile="source ~/.profile; . ~/.profile"
 alias lpf="source ~/.profile; . ~/.profile"
 alias loadZshFile="source ~/.zshrc; . ~/.zshrc"
 alias lzf="source ~/.zshrc; . ~/.zshrc"
+# aliasies for shell commands
+alias cl="clear"
