@@ -1,5 +1,9 @@
 # This are some aliases for commands i use often for cygwin
 #
+# set JAVA_HOME for cygwin
+JAVA_HOME=C:/Users/{YOUR_USERNAME}/dev/jdks/{CURRENT_JDK_HOME}
+export JAVA_HOME
+export PATH=$PATH:$JAVA_HOME/bin
 # aliasies for directory commands
 alias changeDirToC="cd /cygdrive/c"
 alias cdc="cd /cygdrive/c"
