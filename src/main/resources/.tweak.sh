@@ -8,4 +8,5 @@ cleanup() {
    sudo apt-get update
    sudo apt-get upgrade
    sudo apt --fix-broken install
+   rm -rf ~/.cache/thumbnails/*
 }
