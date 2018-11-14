@@ -11,7 +11,7 @@ alias lrb="git branch -r"
 alias deletelocalbranch="git branch -d"
 alias dlb="git branch -d"
 alias createnewbranch="git checkout -b"
-alias cnb="git checkout -b"
+alias gcnb="git checkout -b"
 alias gcm="git checkout master"
 alias gcd="git checkout develop"
 # create an 'empty' branch for the github pages
