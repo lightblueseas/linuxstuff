@@ -12,3 +12,6 @@ mkdir ides && mkdir ~/ides/eclipse && mkdir ~/ides/netbeans && mkdir ~/ides/jedi
 mkdir ~/wss && mkdir ~/dev  && mkdir ~/dev/servers && mkdir ~/tmp && mkdir ~/apps
 sudo apt-get install chromium-browser chromium-browser-l10n chromium-codecs-ffmpeg
 sudo apt-get install chromium-codecs-ffmpeg-extra
+sudo add-apt-repository ppa:jtaylor/keepass
+sudo apt-get update
+sudo apt-get install keepass2
