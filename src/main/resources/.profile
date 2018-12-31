@@ -6,6 +6,8 @@ alias loadProfileFile="source ~/.profile; . ~/.profile"
 alias lpf="source ~/.profile; . ~/.profile"
 alias loadZshFile="source ~/.zshrc; . ~/.zshrc"
 alias lzf="source ~/.zshrc; . ~/.zshrc"
+alias loadBashFile="source ~/.bashrc; . ~/.bashrc"
+alias lbf="source ~/.bashrc; . ~/.bashrc"
 # aliasies for bower commands
 alias bowerinst="bower install"
 alias bowi="bower install"
@@ -135,6 +137,8 @@ cleanAndBuildNode () {
 	echo '$ gulp build'
 	gulp build
 }
+# aliasies for shell commands
+alias cl="clear"
 ##
 # clean up the ubuntu system
 ##
@@ -145,6 +149,7 @@ cleanup() {
    sudo apt-get update
    sudo apt-get upgrade
    sudo apt --fix-broken install
+   rm -rf ~/.cache/thumbnails/*
 }
 
 ##
