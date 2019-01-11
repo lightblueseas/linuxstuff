@@ -16,6 +16,7 @@ alias gcm="git checkout master"
 alias gcd="git checkout develop"
 # create an 'empty' branch for the github pages
 alias gcghp="git checkout --orphan gh-pages"
+alias gcl="git clone"
 ####################################
 # functions for git commands
 ##
