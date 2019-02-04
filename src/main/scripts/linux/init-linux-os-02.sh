@@ -1,4 +1,9 @@
-sudo apt update
+sudo apt-get install git
+sudo apt-get install curl
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get dist-upgrade
 sudo apt install default-jdk
 java -version
 sudo apt-get install maven
