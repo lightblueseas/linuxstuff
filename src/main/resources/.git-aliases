@@ -24,7 +24,7 @@ alias gcl="git clone"
 # $1 the name of the new git branch
 # $2 the git branch name from where to branch
 ##
-gcnb () {
+gconbr () {
 	git checkout -b $1 $2
 }
 
