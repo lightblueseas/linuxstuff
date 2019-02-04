@@ -8,10 +8,11 @@ sudo apt install default-jdk
 java -version
 sudo apt-get install maven
 echo $JAVA_HOME
+sudo awk 'BEGIN{ printf "JAVA_HOME=\"/usr/lib/jvm/java-8-oracle\"" >> "/etc/environment"  }'
 sudo echo "JAVA_HOME=/usr/lib/jvm/default-java" >> /etc/environment
+sudo source /etc/environment
 echo $JAVA_HOME
 sudo apt-get install jedit
-jedit
 cd ~
 mkdir ides && mkdir ~/ides/eclipse && mkdir ~/ides/netbeans && mkdir ~/ides/jedit && mkdir ~/ides/androidstudios
 mkdir ~/wss && mkdir ~/dev  && mkdir ~/dev/servers && mkdir ~/tmp && mkdir ~/apps
