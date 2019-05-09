@@ -72,14 +72,14 @@
             <regex>(.+)Factory</regex>
             <example>MessageFactory</example>
             <text>/**
- * A factory for creating ${e.g(1)} objects.
+ * A factory for creating ${e.g(1)} objects
  */</text>
             <childTemplates>
                 <methodTemplate name="Type.Factory.Method.create" useSignature="false" defaultTemplate="false" kind="3">
                     <regex>create(.+)</regex>
                     <example>createMessage</example>
                     <text>/**
- * Creates a new ${e.p().g(1)} object.
+ * Creates a new ${e.p().g(1)} object
  */</text>
                     <childTemplates/>
                 </methodTemplate>
@@ -90,7 +90,7 @@
             <example>ImageObserver</example>
             <text>/**
  * An asynchronous update interface for receiving notifications
- * about ${e.g(1)} information as the ${e.g(1)} is constructed.
+ * about ${e.g(1)} information as the ${e.g(1)} is constructed
  */</text>
             <childTemplates>
                 <methodTemplate name="Type.Observer.Method.update" useSignature="false" defaultTemplate="false" kind="3">
@@ -99,7 +99,7 @@
                     <text>/**
  * This method is called when information about an ${e.p().g(1)}
  * which was previously requested using an asynchronous
- * interface becomes available.
+ * interface becomes available
  */</text>
                     <childTemplates/>
                 </methodTemplate>
@@ -115,7 +115,7 @@
  * with that class is registered with a component using the
  * component's &lt;code&gt;add${e.g(1)}Listener&lt;code&gt; method. When
  * the ${e.g(1).fl()} event occurs, that object's appropriate
- * method is invoked.
+ * method is invoked
  *
  * @see ${e.g(1)}Event
  */</text>
@@ -124,7 +124,7 @@
                     <regex>(.*)Created</regex>
                     <example>autodocCreated</example>
                     <text>/**
- * Invoked when ${e.g(1).rs()} is created.
+ * Invoked when ${e.g(1).rs()} is created
  */</text>
                     <childTemplates/>
                 </methodTemplate>
@@ -132,7 +132,7 @@
                     <regex>(.*)Updated</regex>
                     <example>autodocUpdated</example>
                     <text>/**
- * Invoked when ${e.g(1).rs()} update occurs.
+ * Invoked when ${e.g(1).rs()} update occurs
  */</text>
                     <childTemplates/>
                 </methodTemplate>
@@ -143,7 +143,7 @@
             <example>ExampleType</example>
             <text>/**
 ## type: class|interface|enum
- * The ${e.getType()} {@link ${e}}.
+ * The ${e.getType()} {@link ${e}}
  */</text>
             <childTemplates/>
         </typeTemplate>
@@ -151,7 +151,7 @@
             <regex>f([A-Z].+)</regex>
             <example>fExampleMember</example>
             <text>/**
- * The ${e.g(1).rsfl()}.
+ * The ${e.g(1).rsfl()}
  */</text>
             <childTemplates/>
         </fieldTemplate>
@@ -159,7 +159,7 @@
             <regex>the[A-Z].+</regex>
             <example>theNumberOfQuestions</example>
             <text>/**
- * ${e.rsfu()}.
+ * ${e.rsfu()}
  */</text>
             <childTemplates/>
         </fieldTemplate>
@@ -168,9 +168,9 @@
             <example>numberOfQuestions</example>
             <text>/**
 #if(${e.isStatic()} &amp;&amp; ${e.isFinal()})
- * The Constant ${e}.
+ * The Constant ${e}
 #else
- * The ${e.rs()}.
+ * The ${e.rs()}
 #end
  */</text>
             <childTemplates/>
@@ -179,7 +179,7 @@
             <regex>getInstance</regex>
             <example>getInstance</example>
             <text>/**
- * Gets the single instance of ${e.getDeclaringType()}.
+ * Gets the single instance of ${e.getDeclaringType()}
  * 
  * @return single instance of ${e.getDeclaringType()}
  */</text>
@@ -189,7 +189,7 @@
             <regex>\S+ get(\S+)\(.*\)</regex>
             <example>int getNumberOfQuestions()</example>
             <text>/**
- * Gets the ${e.g(1).rsfl()}.
+ * Gets the ${e.g(1).rsfl()}
  * 
  * @return the ${e.g(1).rsfl()}
  */</text>
@@ -199,7 +199,7 @@
             <regex>void set(\S+)\([^,]+ ([^,]+)\)</regex>
             <example>void setNumberOfQuestions(int number)</example>
             <text>/**
- * Sets the ${e.g(1).rsfl()}.
+ * Sets the ${e.g(1).rsfl()}
  * 
  * @param ${e.g(2)} the new ${e.g(1).rsfl()}
  */</text>
@@ -209,7 +209,7 @@
             <regex>boolean is(.+)\(.*\)</regex>
             <example>boolean isBlue()</example>
             <text>/**
- * Checks if is ${e.g(1).rsfl()}.
+ * Checks if is ${e.g(1).rsfl()}
  * 
  * @return true, if is ${e.g(1).rsfl()}
  */</text>
@@ -219,7 +219,7 @@
             <regex>void main\(String\[\] (\S+)\)</regex>
             <example>void main(String[] args)</example>
             <text>/**
- * The main method.
+ * The main method
  * 
  * @param ${e.g(1)} the arguments
  */</text>
@@ -229,7 +229,7 @@
             <regex>(\S+)\(.*\)</regex>
             <example>SimpleClass()</example>
             <text>/**
- * Instantiates a new ${e.g(1).rsfl()}.
+ * Instantiates a new ${e.g(1).rsfl()}
  */</text>
             <childTemplates/>
         </methodTemplate>
@@ -237,7 +237,7 @@
             <regex>void (.+)\(.*\)</regex>
             <example>void doSomething()</example>
             <text>/**
- * ${e.g(1).rsfu()}.
+ * ${e.g(1).rsfu()}
  */</text>
             <childTemplates/>
         </methodTemplate>
@@ -245,7 +245,7 @@
             <regex>boolean (\S+)\(.*\)</regex>
             <example>boolean doSomething(int parameter)</example>
             <text>/**
- * ${e.g(1).rsfu()}.
+ * ${e.g(1).rsfu()}
  * 
  * @return true, if successful
  */</text>
@@ -255,7 +255,7 @@
             <regex>(\S+) (\S+)\(.*\)</regex>
             <example>ReturnValue calculateSomething()</example>
             <text>/**
- * ${e.g(2).rsfu()}.
+ * ${e.g(2).rsfu()}
  * 
  * @return the ${e.g(1).rsfl()}
  */</text>
@@ -267,7 +267,7 @@
             <text>/**
 ## Actually this is not used, because there
 ## are templates for different return types
- * ${e.rsfu()}.
+ * ${e.rsfu()}
  */</text>
             <childTemplates/>
         </methodTemplate>
@@ -318,7 +318,7 @@
             <regex>IOException</regex>
             <example>IOException</example>
             <text>/**
- * @throws ${e} Signals that an I/O exception has occurred.
+ * @throws ${e} Signals that an I/O exception has occurred
  */</text>
             <childTemplates/>
         </exceptionTemplate>

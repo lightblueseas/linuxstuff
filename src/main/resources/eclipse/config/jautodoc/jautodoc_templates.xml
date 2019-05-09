@@ -5,13 +5,13 @@
     <regex>(.+)Factory</regex>
     <example>MessageFactory</example>
     <text>/**
- * A factory for creating ${e.g(1)} objects.
+ * A factory for creating ${e.g(1)} objects
  */</text>
     <template kind="3" name="Type.Factory.Method.create" default="false" signature="false">
             <regex>create(.+)</regex>
             <example>createMessage</example>
             <text>/**
- * Creates a new ${e.p().g(1)} object.
+ * Creates a new ${e.p().g(1)} object
  */</text>
     </template>
 </template>
@@ -20,7 +20,7 @@
     <example>ImageObserver</example>
     <text>/**
  * An asynchronous update interface for receiving notifications
- * about ${e.g(1)} information as the ${e.g(1)} is constructed.
+ * about ${e.g(1)} information as the ${e.g(1)} is constructed
  */</text>
     <template kind="3" name="Type.Observer.Method.update" default="false" signature="false">
             <regex>.*</regex>
@@ -28,7 +28,7 @@
             <text>/**
  * This method is called when information about an ${e.p().g(1)}
  * which was previously requested using an asynchronous
- * interface becomes available.
+ * interface becomes available
  */</text>
     </template>
 </template>
@@ -42,7 +42,7 @@
  * with that class is registered with a component using the
  * component's &lt;code&gt;add${e.g(1)}Listener&lt;code&gt; method. When
  * the ${e.g(1).fl()} event occurs, that object's appropriate
- * method is invoked.
+ * method is invoked
  *
  * @see ${e.g(1)}Event
  */</text>
@@ -50,14 +50,14 @@
             <regex>(.*)Created</regex>
             <example>autodocCreated</example>
             <text>/**
- * Invoked when ${e.g(1).rs()} is created.
+ * Invoked when ${e.g(1).rs()} is created
  */</text>
     </template>
     <template kind="3" name="Type.Listener.Method.updated" default="false" signature="false">
             <regex>(.*)Updated</regex>
             <example>autodocUpdated</example>
             <text>/**
- * Invoked when ${e.g(1).rs()} update occurs.
+ * Invoked when ${e.g(1).rs()} update occurs
  */</text>
     </template>
 </template>
@@ -66,21 +66,21 @@
     <example>ExampleType</example>
     <text>/**
 ## type: class|interface|enum
- * The ${e.getType()} {@link ${e}}.
+ * The ${e.getType()} {@link ${e}}
  */</text>
 </template>
 <template kind="2" name="Field.fPrefix" default="false" signature="false">
     <regex>f([A-Z].+)</regex>
     <example>fExampleMember</example>
     <text>/**
- * The ${e.g(1).rsfl()}.
+ * The ${e.g(1).rsfl()}
  */</text>
 </template>
 <template kind="2" name="Field.thePrefix" default="false" signature="false">
     <regex>the[A-Z].+</regex>
     <example>theNumberOfQuestions</example>
     <text>/**
- * ${e.rsfu()}.
+ * ${e.rsfu()}
  */</text>
 </template>
 <template kind="2" name="Field.Default" default="true" signature="false">
@@ -88,9 +88,9 @@
     <example>numberOfQuestions</example>
     <text>/**
 #if(${e.isStatic()} &amp;&amp; ${e.isFinal()})
- * The Constant ${e}.
+ * The Constant ${e}
 #else
- * The ${e.rs()}.
+ * The ${e.rs()}
 #end
  */</text>
 </template>
@@ -98,7 +98,7 @@
     <regex>getInstance</regex>
     <example>getInstance</example>
     <text>/**
- * Gets the single instance of ${e.getDeclaringType()}.
+ * Gets the single instance of ${e.getDeclaringType()}
  * 
  * @return single instance of ${e.getDeclaringType()}
  */</text>
@@ -107,7 +107,7 @@
     <regex>\S+ get(\S+)\(.*\)</regex>
     <example>int getNumberOfQuestions()</example>
     <text>/**
- * Gets the ${e.g(1).rsfl()}.
+ * Gets the ${e.g(1).rsfl()}
  * 
  * @return the ${e.g(1).rsfl()}
  */</text>
@@ -116,7 +116,7 @@
     <regex>void set(\S+)\([^,]+ ([^,]+)\)</regex>
     <example>void setNumberOfQuestions(int number)</example>
     <text>/**
- * Sets the ${e.g(1).rsfl()}.
+ * Sets the ${e.g(1).rsfl()}
  * 
  * @param ${e.g(2)} the new ${e.g(1).rsfl()}
  */</text>
@@ -125,7 +125,7 @@
     <regex>boolean is(.+)\(.*\)</regex>
     <example>boolean isBlue()</example>
     <text>/**
- * Checks if is ${e.g(1).rsfl()}.
+ * Checks if is ${e.g(1).rsfl()}
  * 
  * @return true, if is ${e.g(1).rsfl()}
  */</text>
@@ -134,7 +134,7 @@
     <regex>void main\(String\[\] (\S+)\)</regex>
     <example>void main(String[] args)</example>
     <text>/**
- * The main method.
+ * The main method
  * 
  * @param ${e.g(1)} the arguments
  */</text>
@@ -143,21 +143,21 @@
     <regex>(\S+)\(.*\)</regex>
     <example>SimpleClass()</example>
     <text>/**
- * Instantiates a new ${e.g(1).rsfl()}.
+ * Instantiates a new ${e.g(1).rsfl()}
  */</text>
 </template>
 <template kind="3" name="Method.Returns void" default="false" signature="true">
     <regex>void (.+)\(.*\)</regex>
     <example>void doSomething()</example>
     <text>/**
- * ${e.g(1).rsfu()}.
+ * ${e.g(1).rsfu()}
  */</text>
 </template>
 <template kind="3" name="Method.Returns boolean" default="false" signature="true">
     <regex>boolean (\S+)\(.*\)</regex>
     <example>boolean doSomething(int parameter)</example>
     <text>/**
- * ${e.g(1).rsfu()}.
+ * ${e.g(1).rsfu()}
  * 
  * @return true, if successful
  */</text>
@@ -166,7 +166,7 @@
     <regex>(\S+) (\S+)\(.*\)</regex>
     <example>ReturnValue calculateSomething()</example>
     <text>/**
- * ${e.g(2).rsfu()}.
+ * ${e.g(2).rsfu()}
  * 
  * @return the ${e.g(1).rsfl()}
  */</text>
@@ -177,7 +177,7 @@
     <text>/**
 ## Actually this is not used, because there
 ## are templates for different return types
- * ${e.rsfu()}.
+ * ${e.rsfu()}
  */</text>
 </template>
 <template kind="4" name="Parameter.Generic Type Parameter" default="false" signature="false">
@@ -223,42 +223,42 @@
     <regex>InvalidKeySpecException</regex>
     <example>InvalidKeySpecException</example>
     <text>/**
- * @throws ${e} is thrown if generation of the SecretKey object fails.
+ * @throws ${e} is thrown if generation of the SecretKey object fails
  */</text>
 </template>
 <template kind="5" name="Exception.InvalidAlgorithmParameterException" default="false" signature="false">
     <regex>InvalidAlgorithmParameterException</regex>
     <example>InvalidAlgorithmParameterException</example>
     <text>/**
- * @throws ${e} is thrown if initialization of the cypher object fails.
+ * @throws ${e} is thrown if initialization of the cypher object fails
  */</text>
 </template>
 <template kind="5" name="Exception.UnsupportedEncodingException" default="false" signature="false">
     <regex>UnsupportedEncodingException</regex>
     <example>UnsupportedEncodingException</example>
     <text>/**
- * @throws ${e} is thrown if the named charset is not supported.
+ * @throws ${e} is thrown if the named charset is not supported
  */</text>
 </template>
 <template kind="5" name="Exception.NoSuchAlgorithmException" default="false" signature="false">
     <regex>NoSuchAlgorithmException</regex>
     <example>NoSuchAlgorithmException</example>
     <text>/**
- * @throws ${e} is thrown if instantiation of the SecretKeyFactory object fails.
+ * @throws ${e} is thrown if instantiation of the SecretKeyFactory object fails
  */</text>
 </template>
 <template kind="5" name="Exception.CertificateEncodingException" default="false" signature="false">
     <regex>CertificateEncodingException</regex>
     <example>CertificateEncodingException</example>
     <text>/**
- * @throws ${e} is thrown if an encoding error occurs.
+ * @throws ${e} is thrown if an encoding error occurs
  */</text>
 </template>
 <template kind="5" name="Exception.IOException" default="false" signature="false">
     <regex>IOException</regex>
     <example>IOException</example>
     <text>/**
- * @throws ${e} Signals that an I/O exception has occurred.
+ * @throws ${e} Signals that an I/O exception has occurred
  */</text>
 </template>
 <template kind="5" name="Exception.Default" default="true" signature="false">
@@ -269,3 +269,4 @@
  */</text>
 </template>
 </templates>
+
