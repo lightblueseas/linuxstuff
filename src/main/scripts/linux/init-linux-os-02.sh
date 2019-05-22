@@ -14,7 +14,7 @@ java -version
 sudo apt-get install maven
 echo $JAVA_HOME
 sudo awk 'BEGIN{ printf "JAVA_HOME=\"/usr/lib/jvm/default-java\"" >> "/etc/environment"  }'
-sudo source /etc/environment
+source /etc/environment
 echo $JAVA_HOME
 sudo apt-get install jedit
 cd ~
