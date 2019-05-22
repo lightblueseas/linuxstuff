@@ -21,3 +21,5 @@ sudo apt-get install clamtk-nautilus
 sudo apt-get install python3-pip
 # music player
 sudo apt-get install audacious audacious-plugins
+# for canberra
+sudo apt install libcanberra-gtk-module libcanberra-gtk3-module
