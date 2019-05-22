@@ -6,7 +6,7 @@ sudo apt-get install nautilus-actions
 sudo apt-get install nautilus-gksu
 sudo apt-get install nautilus-actions-extra
 sudo apt-get install gnome-sushi 
-sudo apt-get install nautilus-admin nautilus-sendto nautilus-image-converter nautilus-open-terminal nautilus-compare nautilus-wipe seahorse-nautilus nautilus-gtkhash nautilus-share
+sudo apt-get install nautilus-admin nautilus-sendto nautilus-image-converter nautilus-compare nautilus-wipe seahorse-nautilus nautilus-gtkhash nautilus-share
 sudo apt-get install ffmpegthumbnailer 
 sudo apt-get install nautilus-script-manager
 # nodejs
