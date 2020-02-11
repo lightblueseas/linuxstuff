@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>linuxstuff</artifactId>
-	<version>1.4.0-SNAPSHOT</version>
+	<version>1.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<inceptionYear>2010</inceptionYear>
