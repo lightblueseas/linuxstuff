@@ -13,8 +13,7 @@ sudo apt-get install gnome-sushi
 # python3-pip
 sudo apt-get install python3-pip
 # music player
-sudo apt-get install audacious 
-sudo apt-get install audacious-plugins
+./install-audacious.sh
 # for canberra
 sudo apt-get install libcanberra-gtk-module 
 sudo apt-get install libcanberra-gtk3-module
