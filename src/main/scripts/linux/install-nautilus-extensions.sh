@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # nautilus extensions
 sudo apt-get install nautilus-actions
 sudo apt-get install nautilus-gksu

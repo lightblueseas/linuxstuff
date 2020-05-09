@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
-sudo apt-get update && sudo apt install copyq
+./make-default-user-dirs.sh
+./install-antivirus-clamav.sh
+./install-copyq.sh
 ./install-zsh.sh

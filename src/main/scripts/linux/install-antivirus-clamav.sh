@@ -5,3 +5,5 @@ sudo apt-get install clamav-docs
 sudo apt-get install clamav-daemon 
 sudo apt-get install clamtk 
 sudo apt-get install clamtk-nautilus
+# rootkit hunter
+sudo apt-get install rkhunter
