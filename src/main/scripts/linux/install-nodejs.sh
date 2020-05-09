@@ -7,3 +7,5 @@ if [ -d "$DIR" ]; then
   # create node modules directory #
   sudo mkdir $DIR
 fi
+# change owner of node modules directory to the current user
+sudo chown -R $USER $DIR
