@@ -1,4 +1,5 @@
-sudo apt-get install gnupg-agent pinentry-gtk2
+sudo apt-get install gnupg-agent 
+sudo apt-get install pinentry-gtk2
 sudo apt-get install ktouch
 sudo apt-get install shotwell
 sudo apt-get install gnome-system-tools
@@ -6,7 +7,8 @@ sudo apt-get install gnome-sushi
 # nautilus extensions
 ./install-nautilus-extensions.sh
 # nodejs
-sudo apt install nodejs npm
+sudo apt-get install nodejs 
+sudo apt-get install npm
 DIR="/usr/local/lib/node_modules"
 if [ -d "$DIR" ]; then
   # create node modules directory #
