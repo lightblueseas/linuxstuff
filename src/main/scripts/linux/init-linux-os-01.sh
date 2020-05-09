@@ -1,4 +1,4 @@
-sudo apt-get update && sudo apt-get install clipit
+sudo apt-get update && sudo apt install copyq
 sudo apt install zsh
 zsh --version
 chsh -s $(which zsh)
