@@ -8,14 +8,13 @@ sudo apt-get install gnome-sushi
 ./install-nautilus-extensions.sh
 # nodejs
 ./install-nodejs.sh
-# change owner of node modules directory to the current user
-sudo chown -R $USER $DIR
 # antivirus programm clamav
 ./install-antivirus-clamav.sh
 # python3-pip
 sudo apt-get install python3-pip
 # music player
-sudo apt-get install audacious audacious-plugins
+sudo apt-get install audacious 
+sudo apt-get install audacious-plugins
 # for canberra
 sudo apt-get install libcanberra-gtk-module 
 sudo apt-get install libcanberra-gtk3-module
