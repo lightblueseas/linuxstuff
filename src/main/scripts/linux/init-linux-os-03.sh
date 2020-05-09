@@ -3,7 +3,7 @@ sudo apt-get install ktouch
 sudo apt-get install shotwell
 sudo apt-get install gnome-system-tools
 sudo apt-get install gnome-sushi 
-# nodejs nautilus extensions
+# nautilus extensions
 sudo apt-get install nautilus-actions
 sudo apt-get install nautilus-gksu
 sudo apt-get install nautilus-actions-extra
