@@ -15,13 +15,11 @@ fi
 # change owner of node modules directory to the current user
 sudo chown -R $USER $DIR
 # antivirus programm clamav
-sudo apt-get install clamav clamav-freshclam 
-sudo apt-get install clamav-docs
-sudo apt-get install clamav-daemon 
-sudo apt-get install clamtk 
-sudo apt-get install clamtk-nautilus
+./install-antivirus-clamav.sh
+# python3-pip
 sudo apt-get install python3-pip
 # music player
 sudo apt-get install audacious audacious-plugins
 # for canberra
-sudo apt install libcanberra-gtk-module libcanberra-gtk3-module
+sudo apt-get install libcanberra-gtk-module 
+sudo apt-get install libcanberra-gtk3-module
