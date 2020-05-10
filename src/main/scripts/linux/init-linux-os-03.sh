@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+./install-antivirus-clamav.sh
+./install-copyq.sh
 ./install-default-jdk.sh
 ./install-chromium.sh
 ./install-keepass2.sh
