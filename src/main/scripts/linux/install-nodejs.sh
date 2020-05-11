@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # nodejs
-sudo apt-get install nodejs 
-sudo apt-get install npm
+sudo apt-get install -y nodejs
+sudo apt-get install -y npm
 DIR="/usr/local/lib/node_modules"
 if [ -d "$DIR" ]; then
   # create node modules directory #

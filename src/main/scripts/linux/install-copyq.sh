@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 sudo apt-get update
-sudo apt install copyq
+sudo apt install -y copyq

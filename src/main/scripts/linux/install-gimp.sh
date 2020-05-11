@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-sudo apt-get install gimp
-sudo apt-get install gimp-help-de
-sudo apt-get install language-pack-gnome-de
-sudo apt-get install gimp-dcraw
-sudo apt-get install gimp-ufraw
-sudo apt-get install gimp-gap
-sudo apt-get install gimp-gutenprint
-sudo apt-get install gimp-plugin-registry
-sudo apt-get install gimp-resynthesizer
+sudo apt-get install -y gimp
+sudo apt-get install -y gimp-help-de
+sudo apt-get install -y language-pack-gnome-de
+sudo apt-get install -y gimp-dcraw
+sudo apt-get install -y gimp-ufraw
+sudo apt-get install -y gimp-gap
+sudo apt-get install -y gimp-gutenprint
+sudo apt-get install -y gimp-plugin-registry
+sudo apt-get install -y gimp-resynthesizer
