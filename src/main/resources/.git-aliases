@@ -1,4 +1,6 @@
-# aliasies for git commands
+#############################
+# aliasies for git commands #
+#############################
 alias gp="git pull"
 alias gfgmdev="git fetch; git merge origin/master --ff-only"
 alias gps="git push"
@@ -17,29 +19,33 @@ alias gcd="git checkout develop"
 # create an 'empty' branch for the github pages
 alias gcghp="git checkout --orphan gh-pages"
 alias gcl="git clone"
-####################################
-# functions for git commands
-##
-# Create new git branch
-# $1 the name of the new git branch
-# $2 the git branch name from where to branch
-##
+
+##############################
+# functions for git commands #
+##############################
+
+###############################################
+# Create new git branch                       #
+# $1 the name of the new git branch           #
+# $2 the git branch name from where to branch #
+###############################################
 gconbr () {
 	git checkout -b $1 $2
 }
 
-##
-# Create new git branch from master
-# $1 the name of the new git branch
-##
+#####################################
+# Create new git branch from master #
+# $1 the name of the new git branch #
+#####################################
 gcnbm () {
 	git checkout -b $1 master
 }
 
-##
-# Create new git branch from develop
-# $1 the name of the new git branch
-##
+######################################
+# Create new git branch from develop #
+# $1 the name of the new git branch  #
+######################################
 gcnbd () {
 	git checkout -b $1 develop
 }
+

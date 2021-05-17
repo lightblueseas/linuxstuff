@@ -1,4 +1,6 @@
-# aliasies for mvn commands
+#############################
+# aliasies for mvn commands #
+#############################
 alias mvnCleanInstall="mvn clean install -DskipTests=true"
 alias mci="mvn clean install -DskipTests=true"
 alias mvnCleanPackage="mvn clean package -DskipTests=true"
@@ -35,3 +37,4 @@ alias mvnPrepareIzpackProfile="mvn clean install antrun:run -DskipTests=true -Pp
 alias mpip="mvn clean install antrun:run -DskipTests=true -Pprepare-and-release-and-izpack"
 alias mvnPrepareResourcesProfile="mvn clean install antrun:run -DskipTests=true -Pprepare-release-resources"
 alias mppp="mvn clean install antrun:run -DskipTests=true -Pprepare-release-resources"
+

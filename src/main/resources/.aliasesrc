@@ -1,10 +1,19 @@
-# aliases
-# show all aliases that can be used here or elsewhere
+###########
+# aliases #
+###########
+
+#######################################################
+# show all aliases that can be used here or elsewhere #
+#######################################################
 alias a="alias"
-# aliasies for source commands
+
+################################
+# aliasies for source commands #
+################################
 alias loadProfileFile="source ~/.profile; . ~/.profile"
 alias lpf="source ~/.profile; . ~/.profile"
 alias loadZshFile="source ~/.zshrc; . ~/.zshrc"
 alias lzf="source ~/.zshrc; . ~/.zshrc"
 alias loadBashFile="source ~/.bashrc; . ~/.bashrc"
 alias lbf="source ~/.bashrc; . ~/.bashrc"
+

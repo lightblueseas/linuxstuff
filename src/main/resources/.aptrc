@@ -1,3 +1,4 @@
-# aliases
-# aliasies for apt-get commands
+#################################
+# aliasies for apt-get commands #
+#################################
 alias sagu="sudo apt-get update"

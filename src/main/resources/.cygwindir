@@ -1,6 +1,9 @@
-# Same as in .profile and add the following lines for cygwin specific command aliases
-#
-# filesystem aliases
+#######################################################################################
+# Same as in .profile and add the following lines for cygwin specific command aliases #
+#######################################################################################
+######################
+# filesystem aliases #
+######################
 alias changeDirToC="cd /cygdrive/c"
 alias cdc="cd /cygdrive/c"
 alias changeDirToProject="cd /cygdrive/c/dev/git/" # set project
@@ -10,6 +13,8 @@ alias cdg="cd /cygdrive/c/dev/git"
 alias cdd="cd ."
 alias changeDirToWindowsUsers="cd /cygdrive/c/Users"
 alias cdtwu="cd /cygdrive/c/Users"
-# change '{YOUR_USERNAME}' with the name of your windows username
+###################################################################
+# change '{YOUR_USERNAME}' with the name of your windows username #
+###################################################################
 alias changeDirToWindowsUsersHome="cd /cygdrive/c/Users/{YOUR_USERNAME}"
 alias cdtwuh="cd /cygdrive/c/Users/{YOUR_USERNAME}"

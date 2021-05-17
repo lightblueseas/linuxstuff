@@ -1,12 +1,12 @@
 
-##
-# Login on cloudfoundry
-# $1 url of the endpoint
-# $2 the user name 
-# $3 the organization name
-# $4 the password
-# $5 the space name
-##
+############################
+# Login on cloudfoundry    #
+# $1 url of the endpoint   #
+# $2 the user name         #
+# $3 the organization name #
+# $4 the password          #
+# $5 the space name        #
+############################
 authOnCloudfoundry () {
     cf login -a $1 -u $2 -o $3 -p $4 -s $5
 }

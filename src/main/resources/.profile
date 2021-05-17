@@ -1,33 +1,51 @@
-# aliases
-# show all aliases that can be used here or elsewhere
+###########
+# aliases #
+###########
+
+#######################################################
+# show all aliases that can be used here or elsewhere #
+#######################################################
 alias a="alias"
-# aliasies for source commands
+
+################################
+# aliasies for source commands #
+################################
 alias loadProfileFile="source ~/.profile; . ~/.profile"
 alias lpf="source ~/.profile; . ~/.profile"
 alias loadZshFile="source ~/.zshrc; . ~/.zshrc"
 alias lzf="source ~/.zshrc; . ~/.zshrc"
 alias loadBashFile="source ~/.bashrc; . ~/.bashrc"
 alias lbf="source ~/.bashrc; . ~/.bashrc"
-# aliasies for bower commands
+
+###############################
+# aliasies for bower commands #
+###############################
 alias bowerinst="bower install"
 alias bowi="bower install"
 alias bi="bower install"
 alias bowh="bower --help"
 alias rmbn="rm -rf bower_components/ node_modules/"
-# aliasies for directory commands
+
+###################################
+# aliasies for directory commands #
+###################################
 alias c="cd ..; pwd"
 alias cdd="cd ."
 alias ls="ls -al"
 alias cdev="cd ~/dev"
 alias cdg="cd ~/git"
-##
-# Create the given directory and change to it
-##
+
+###############################################
+# Create the given directory and change to it #
+###############################################
 mkcd () {
     mkdir -p $1
     cd $1
 }
-# aliasies for git commands
+
+#############################
+# aliasies for git commands #
+#############################
 alias gp="git pull"
 alias gfgmdev="git fetch; git merge origin/master --ff-only"
 alias gps="git push"
@@ -40,44 +58,54 @@ alias lrb="git branch -r"
 alias deletelocalbranch="git branch -d"
 alias dlb="git branch -d"
 alias createnewbranch="git checkout -b"
-alias cnb="git checkout -b"
+alias gcnb="git checkout -b"
 alias gcm="git checkout master"
 alias gcd="git checkout develop"
 # create an 'empty' branch for the github pages
 alias gcghp="git checkout --orphan gh-pages"
-####################################
-# functions for git commands
-##
-# Create new git branch
-# $1 the name of the new git branch
-# $2 the git branch name from where to branch
-##
-gcnb () {
+alias gcl="git clone"
+
+##############################
+# functions for git commands #
+##############################
+
+###############################################
+# Create new git branch                       #
+# $1 the name of the new git branch           #
+# $2 the git branch name from where to branch #
+###############################################
+gconbr () {
 	git checkout -b $1 $2
 }
 
-##
-# Create new git branch from master
-# $1 the name of the new git branch
-##
+#####################################
+# Create new git branch from master #
+# $1 the name of the new git branch #
+#####################################
 gcnbm () {
 	git checkout -b $1 master
 }
 
-##
-# Create new git branch from develop
-# $1 the name of the new git branch
-##
+######################################
+# Create new git branch from develop #
+# $1 the name of the new git branch  #
+######################################
 gcnbd () {
 	git checkout -b $1 develop
 }
-# aliasies for gulp commands
+
+##############################
+# aliasies for gulp commands #
+##############################
 alias gpcl="gulp clean"
 alias gc="gulp clean"
 alias gpbd="gulp build"
 alias gb="gulp build"
 alias gpse="gulp serve"
-# aliasies for mvn commands
+
+#############################
+# aliasies for mvn commands #
+#############################
 alias mvnCleanInstall="mvn clean install -DskipTests=true"
 alias mci="mvn clean install -DskipTests=true"
 alias mvnCleanPackage="mvn clean package -DskipTests=true"
@@ -114,15 +142,18 @@ alias mvnPrepareIzpackProfile="mvn clean install antrun:run -DskipTests=true -Pp
 alias mpip="mvn clean install antrun:run -DskipTests=true -Pprepare-and-release-and-izpack"
 alias mvnPrepareResourcesProfile="mvn clean install antrun:run -DskipTests=true -Pprepare-release-resources"
 alias mppp="mvn clean install antrun:run -DskipTests=true -Pprepare-release-resources"
-# aliasies for npm commands
+
+#############################
+# aliasies for npm commands #
+#############################
 alias npminst="npm install"
 alias npmi="npm install"
 alias ni="npm install"
 alias npmit="npm init"
 
-##
-# Clean and build a node project
-##
+##################################
+# Clean and build a node project #
+##################################
 cleanAndBuildNode () {
 	echo '$ git pull'
 	git pull
@@ -137,11 +168,15 @@ cleanAndBuildNode () {
 	echo '$ gulp build'
 	gulp build
 }
-# aliasies for shell commands
+
+###############################
+# aliasies for shell commands #
+###############################
 alias cl="clear"
-##
-# clean up the ubuntu system
-##
+
+##############################
+# clean up the ubuntu system #
+##############################
 cleanup() {
    sudo apt-get autoclean
    sudo apt-get clean
@@ -151,58 +186,58 @@ cleanup() {
    sudo apt --fix-broken install
 }
 
-##
-# clean up the thumbnails from the cache
-##
+##########################################
+# clean up the thumbnails from the cache #
+##########################################
 cleanupThumbnails() {
    rm -rf ~/.cache/thumbnails/*
 }
 
-##
-# Create a tar file that will be encrypted with openssl and the cipher type aes-256-cbc
-# $1 the name of the folder to tar and encrypt
-# $2 the name of the output file ie. the desired result tar file
-##
+#########################################################################################
+# Create a tar file that will be encrypted with openssl and the cipher type aes-256-cbc #
+# $1 the name of the folder to tar and encrypt                                          #
+# $2 the name of the output file ie. the desired result tar file                        #
+#########################################################################################
 zipAndEncrypt() {
 	tar cz $1 | openssl enc -aes-256-cbc -e > $2
 }
 
-##
-# Create a tar file that will be encrypted with openssl and the given cipher type
-# $1 the name of the folder to tar and encrypt
-# $2 the name of the the cipher type
-# $3 the name of the the output file ie. the desired result tar file
-##
+#########################################################################################
+# Create a tar file that will be encrypted with openssl and the given cipher type       #
+# $1 the name of the folder to tar and encrypt                                          #
+# $2 the name of the the cipher type                                                    #
+# $3 the name of the the output file ie. the desired result tar file                    #
+#########################################################################################
 zipAndEncryptWithCipher() {
 	tar cz $1 | openssl enc $2 -e > $3
 }
 
-##
-# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher type aes-256-cbc
-# to the current directory. 
-# $1 the name of the tar file to decrypt and unzip
-##
+#########################################################################################
+# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher    #
+# type aes-256-cbc to the current directory.                                            #
+# $1 the name of the tar file to decrypt and unzip                                      #
+#########################################################################################
 unzipAndDencrypt() {
 	openssl enc -aes-256-cbc -d -in $1 | tar xz
 }
 
-##
-# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher type aes-256-cbc
-# to the specified directory.
-# $1 the name of the tar file to decrypt and unzip
-# $2 the directory to unzip the given tar file 
-##
+#########################################################################################
+# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher    #
+# type aes-256-cbc to the specified directory.                                          #
+# $1 the name of the tar file to decrypt and unzip                                      #
+# $2 the directory to unzip the given tar file                                          #
+#########################################################################################
 unzipAndDencryptWithCipher() {
 	openssl enc -aes-256-cbc -d -in $1 | tar xz --directory $2
 }
 
-##
-# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher type
-# to the specified directory.
-# $1 the name of the tar file to decrypt and unzip
-# $2 the name of the the cipher type
-# $3 the directory to unzip the given tar file 
-##
+#########################################################################################
+# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher    #
+# type to the specified directory.                                                      #
+# $1 the name of the tar file to decrypt and unzip                                      #
+# $2 the name of the the cipher type                                                    #
+# $3 the directory to unzip the given tar file                                          #
+#########################################################################################
 unzipAndDencryptWithCipher() {
 	openssl enc $2 -d -in $1 | tar xz --directory $3
 }

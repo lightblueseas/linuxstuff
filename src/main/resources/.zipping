@@ -1,49 +1,49 @@
 
-##
-# Create a tar file that will be encrypted with openssl and the cipher type aes-256-cbc
-# $1 the name of the folder to tar and encrypt
-# $2 the name of the output file ie. the desired result tar file
-##
+#########################################################################################
+# Create a tar file that will be encrypted with openssl and the cipher type aes-256-cbc #
+# $1 the name of the folder to tar and encrypt                                          #
+# $2 the name of the output file ie. the desired result tar file                        #
+#########################################################################################
 zipAndEncrypt() {
 	tar cz $1 | openssl enc -aes-256-cbc -e > $2
 }
 
-##
-# Create a tar file that will be encrypted with openssl and the given cipher type
-# $1 the name of the folder to tar and encrypt
-# $2 the name of the the cipher type
-# $3 the name of the the output file ie. the desired result tar file
-##
+#########################################################################################
+# Create a tar file that will be encrypted with openssl and the given cipher type       #
+# $1 the name of the folder to tar and encrypt                                          #
+# $2 the name of the the cipher type                                                    #
+# $3 the name of the the output file ie. the desired result tar file                    #
+#########################################################################################
 zipAndEncryptWithCipher() {
 	tar cz $1 | openssl enc $2 -e > $3
 }
 
-##
-# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher type aes-256-cbc
-# to the current directory. 
-# $1 the name of the tar file to decrypt and unzip
-##
+#########################################################################################
+# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher    #
+# type aes-256-cbc to the current directory.                                            #
+# $1 the name of the tar file to decrypt and unzip                                      #
+#########################################################################################
 unzipAndDencrypt() {
 	openssl enc -aes-256-cbc -d -in $1 | tar xz
 }
 
-##
-# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher type aes-256-cbc
-# to the specified directory.
-# $1 the name of the tar file to decrypt and unzip
-# $2 the directory to unzip the given tar file 
-##
+#########################################################################################
+# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher    #
+# type aes-256-cbc to the specified directory.                                          #
+# $1 the name of the tar file to decrypt and unzip                                      #
+# $2 the directory to unzip the given tar file                                          #
+#########################################################################################
 unzipAndDencryptWithCipher() {
 	openssl enc -aes-256-cbc -d -in $1 | tar xz --directory $2
 }
 
-##
-# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher type
-# to the specified directory.
-# $1 the name of the tar file to decrypt and unzip
-# $2 the name of the the cipher type
-# $3 the directory to unzip the given tar file 
-##
+#########################################################################################
+# Unzip and decrypt the given tar file that is encrypted with openssl and the cipher    #
+# type to the specified directory.                                                      #
+# $1 the name of the tar file to decrypt and unzip                                      #
+# $2 the name of the the cipher type                                                    #
+# $3 the directory to unzip the given tar file                                          #
+#########################################################################################
 unzipAndDencryptWithCipher() {
 	openssl enc $2 -d -in $1 | tar xz --directory $3
 }

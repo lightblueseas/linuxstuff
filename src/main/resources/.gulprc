@@ -1,6 +1,9 @@
-# aliasies for gulp commands
+##############################
+# aliasies for gulp commands #
+##############################
 alias gpcl="gulp clean"
 alias gc="gulp clean"
 alias gpbd="gulp build"
 alias gb="gulp build"
 alias gpse="gulp serve"
+
