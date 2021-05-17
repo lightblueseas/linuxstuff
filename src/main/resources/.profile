@@ -149,6 +149,12 @@ cleanup() {
    sudo apt-get update
    sudo apt-get upgrade
    sudo apt --fix-broken install
+}
+
+##
+# clean up the thumbnails from the cache
+##
+cleanupThumbnails() {
    rm -rf ~/.cache/thumbnails/*
 }
 
