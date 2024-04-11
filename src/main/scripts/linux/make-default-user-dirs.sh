@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 cd ~
-mkdir ides && mkdir ~/ides/eclipse && mkdir ~/ides/netbeans && mkdir ~/ides/jedit && mkdir ~/ides/androidstudios && mkdir ~/ides/intellij
-mkdir ~/wss && mkdir ~/dev && mkdir ~/dev/servers && mkdir ~/dev/github && mkdir ~/dev/bitbucket && mkdir ~/tmp && mkdir ~/apps
+mkdir ~/dev && mkdir ~/dev/app && mkdir ~/dev/doc && mkdir ~/dev/git && mkdir ~/dev/git/hub && mkdir ~/dev/git/lab && mkdir ~/dev/sec && mkdir ~/dev/sec/keystore && mkdir ~/dev/server && mkdir ~/dev/temp && mkdir ~/dev/test && mkdir ~/dev/test/data && mkdir ~/dev/tmp && mkdir ~/dev/wss && mkdir ~/dev/ide && mkdir ~/dev/ide/eclipse && mkdir ~/dev/ide/netbeans && mkdir ~/dev/ide/jedit && mkdir ~/dev/ide/androidstudio && mkdir ~/dev/ide/idea
