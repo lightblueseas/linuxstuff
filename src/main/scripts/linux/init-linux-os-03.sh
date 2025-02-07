@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 ./install-antivirus-clamav.sh
+./install-rootkit-rkhunter.sh
 ./install-copyq.sh
 ./install-default-jdk.sh
 ./install-chromium.sh
