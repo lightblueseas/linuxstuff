@@ -6,19 +6,22 @@
 # Source the common initialization script
 source ./init_scripts.sh
 
+# Create an array for components to install
+TO_INSTALL=()
+
 # Check if Audacious is already installed
 if command -v audacious &> /dev/null; then
     info "Audacious is already installed: $(audacious --version 2>/dev/null | head -n 1)"
 else
-    info "Audacious is not installed. Attempting to install it..."
-    TO_INSTALL=("audacious")
+    info "Audacious is not installed. Preparing to install it..."
+    TO_INSTALL+=("audacious")
 fi
 
 # Check if Audacious plugins are already installed
-if command -v audacious &> /dev/null && audacious --version | grep -qi "plugins"; then
+if pacman -Qq audacious-plugins &> /dev/null || dpkg -s audacious-plugins &> /dev/null || rpm -q audacious-plugins &> /dev/null; then
     info "Audacious plugins are already installed."
 else
-    info "Audacious plugins are not installed. Attempting to install them..."
+    info "Audacious plugins are not installed. Preparing to install them..."
     TO_INSTALL+=("audacious-plugins")
 fi
 
@@ -28,66 +31,74 @@ if [[ ${#TO_INSTALL[@]} -eq 0 ]]; then
     exit 0
 fi
 
-# Step 2: Install Audacious and plugins based on the detected OS
+# Run sudo only if there are packages to install
+info "Components to install: ${TO_INSTALL[*]}"
+
+# Step 2: Install missing components based on the detected OS
 case "$OS" in
     ubuntu|debian|raspbian|wsl)
-        info "Updating package database for $OS..."
+        info "Detected Debian-based system. Updating package database..."
         sudo apt-get update -y
-
-        info "Installing Audacious and plugins on $OS..."
-        sudo apt-get install -y "${TO_INSTALL[@]}"
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            sudo apt-get install -y "$component"
+        done
         ;;
 
     manjaro|arch)
-        info "Updating package database for $OS..."
+        info "Detected Arch-based system. Updating package database..."
         pamac update --force-refresh
-
-        info "Installing Audacious and plugins on $OS..."
-        pamac install --no-confirm "${TO_INSTALL[@]}"
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            pamac install --no-confirm "$component"
+        done
         ;;
 
     fedora)
-        info "Updating package database for $OS..."
+        info "Detected Fedora system. Updating package database..."
         sudo dnf update -y
-
-        info "Installing Audacious and plugins on $OS..."
-        sudo dnf install -y "${TO_INSTALL[@]}"
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            sudo dnf install -y "$component"
+        done
         ;;
 
     centos|redhat)
-        info "Updating package database for $OS..."
+        info "Detected CentOS/Red Hat system. Updating package database..."
         sudo yum update -y
-
-        info "Installing EPEL repository on $OS..."
         sudo yum install -y epel-release
-
-        info "Installing Audacious and plugins on $OS..."
-        sudo yum install -y "${TO_INSTALL[@]}"
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            sudo yum install -y "$component"
+        done
         ;;
 
     opensuse)
-        info "Updating package database for $OS..."
+        info "Detected openSUSE system. Updating package database..."
         sudo zypper refresh
-
-        info "Installing Audacious and plugins on $OS..."
-        sudo zypper install -y "${TO_INSTALL[@]}"
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            sudo zypper install -y "$component"
+        done
         ;;
 
     alpine)
-        info "Updating package database for $OS..."
+        info "Detected Alpine Linux. Updating package database..."
         sudo apk update
-
-        info "Installing Audacious and plugins on $OS..."
-        sudo apk add "${TO_INSTALL[@]}"
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            sudo apk add "$component"
+        done
         ;;
 
     macos)
         if command -v brew &> /dev/null; then
             info "Homebrew is installed. Updating..."
             brew update
-
-            info "Installing Audacious on macOS..."
-            brew install audacious
+            for component in "${TO_INSTALL[@]}"; do
+                info "Installing $component on macOS..."
+                brew install "$component"
+            done
         else
             error "Homebrew is not installed. Please install Homebrew first: https://brew.sh"
             exit 1
@@ -97,8 +108,10 @@ case "$OS" in
     linux)
         info "Detected a generic Linux distribution. Attempting to install via snap..."
         if command -v snap &> /dev/null; then
-            info "Installing Audacious via snap..."
-            sudo snap install audacious
+            for component in "${TO_INSTALL[@]}"; do
+                info "Installing $component via snap..."
+                sudo snap install "$component"
+            done
         else
             error "Snap is not installed. Please install Snap or use your package manager to install Audacious."
             exit 1
@@ -113,11 +126,13 @@ esac
 
 # Step 3: Verify installation
 info "Verifying Audacious installation..."
-if command -v audacious &> /dev/null; then
-    info "✅ Audacious installed successfully."
-else
-    error "❌ Audacious installation failed. Please check for errors."
-    exit 1
-fi
+for component in "${TO_INSTALL[@]}"; do
+    if command -v "$component" &> /dev/null; then
+        info "✅ $component installed successfully."
+    else
+        error "❌ $component installation failed. Please check for errors."
+        exit 1
+    fi
+done
 
 info "Audacious installation completed successfully on $OS."

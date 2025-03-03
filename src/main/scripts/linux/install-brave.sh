@@ -3,42 +3,32 @@
 # Brave Browser Installation Script for Multiple OS
 # This script installs Brave Browser based on the detected OS
 
+# Source the common initialization script
+source ./init_scripts.sh
+
 # Function to check if a command exists
 command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Path to detect_os.sh and detect_script_permissions.sh
-DETECT_OS_SCRIPT="./detect_os.sh"
-CHECK_PERMISSIONS_SCRIPT="./detect_script_permissions.sh"
+# Flags to track if Brave is installed
+BRAVE_BROWSER_INSTALLED=false
+BRAVE_INSTALLED=false
 
-# Check if detect_script_permissions.sh exists and is executable
-if [[ ! -x "$CHECK_PERMISSIONS_SCRIPT" ]]; then
-    error "Permission check script not found or not executable: $CHECK_PERMISSIONS_SCRIPT"
-    exit 1
-fi
-
-# Run the permission check for detect_os.sh
-$CHECK_PERMISSIONS_SCRIPT "$DETECT_OS_SCRIPT"
-if [[ $? -ne 0 ]]; then
-    error "Failed to ensure execute permissions for $DETECT_OS_SCRIPT"
-    exit 1
-fi
-
-# Step 1: Detect OS using the external script
-OS=$($DETECT_OS_SCRIPT)
-
-# Check if the OS detection script ran successfully
-if [[ -z "$OS" || "$OS" == "unknown" ]]; then
-    error "Could not detect the OS or unsupported OS detected."
-    exit 1
-fi
-
-info "Detected OS: $OS"
-
-# Check if Brave Browser is already installed
-if command -v brave-browser &> /dev/null || command -v brave &> /dev/null; then
+# Check if brave-browser is already installed
+if command -v brave-browser &> /dev/null; then
     echo "Brave Browser is already installed: $(brave-browser --version 2>/dev/null)"
+    BRAVE_BROWSER_INSTALLED=true
+fi
+
+# Check if brave is already installed
+if command -v brave &> /dev/null; then
+    echo "Brave Browser is already installed: $(brave --version 2>/dev/null)"
+    BRAVE_INSTALLED=true
+fi
+
+# Exit if either is installed
+if [[ "$BRAVE_BROWSER_INSTALLED" == true || "$BRAVE_INSTALLED" == true ]]; then
     exit 0
 fi
 
