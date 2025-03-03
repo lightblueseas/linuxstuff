@@ -8,16 +8,8 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Step 1: Detect OS using the external script
-OS=$(./detect_os.sh)
-
-# Check if the OS detection script ran successfully
-if [[ -z "$OS" || "$OS" == "unknown" ]]; then
-    echo "Could not detect the OS or unsupported OS detected."
-    exit 1
-fi
-
-echo "Detected OS: $OS"
+# Source the common initialization script
+source ./init_scripts.sh
 
 # Check if Calibre is already installed
 if command_exists calibre; then
