@@ -3,9 +3,17 @@
 # Detect OS
 if [[ -f /etc/os-release ]]; then
     source /etc/os-release
+elif [[ -f /etc/rpi-issue ]]; then
+    # Fallback for older Raspberry Pi OS versions
+    ID="raspbian"
 else
     echo "Could not determine OS. Exiting."
     exit 1
+fi
+
+# Check for Raspberry Pi OS explicitly
+if grep -qi 'raspbian' /etc/os-release 2>/dev/null; then
+    ID="raspbian"
 fi
 
 if [[ "$ID" == "manjaro" ]]; then
@@ -14,12 +22,21 @@ if [[ "$ID" == "manjaro" ]]; then
     sudo pacman -Sy --noconfirm
     # Install Zsh
     sudo pacman -S zsh --noconfirm
+
 elif [[ "$ID" == "ubuntu" || "$ID_LIKE" == *"debian"* ]]; then
-    echo "Installing Zsh on Ubuntu..."
+    echo "Installing Zsh on Ubuntu/Debian..."
     # Update package database
     sudo apt update -y
     # Install Zsh
     sudo apt install zsh -y
+
+elif [[ "$ID" == "raspbian" || ( "$ID" == "debian" && "$(uname -m)" == *"arm"* ) ]]; then
+    echo "Installing Zsh on Raspberry Pi OS..."
+    # Update package database
+    sudo apt update -y
+    # Install Zsh
+    sudo apt install zsh -y
+
 else
     echo "Unsupported OS. Exiting."
     exit 1
