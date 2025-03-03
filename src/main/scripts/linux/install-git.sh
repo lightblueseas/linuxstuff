@@ -33,126 +33,110 @@ fi
 
 info "Detected OS: $OS"
 
-# Check if git is already installed
-if command -v git &> /dev/null; then
-    info "Git is already installed: $(git --version)"
-    exit 0
+# Flags to track installation status
+CURL_INSTALLED=false
+GIT_INSTALLED=false
+GIT_FLOW_INSTALLED=false
+
+# Check if Curl is already installed
+if command -v curl &> /dev/null; then
+    info "Curl is already installed: $(curl --version | head -n 1)"
+    CURL_INSTALLED=true
+else
+    info "Curl is not installed. Attempting to install it..."
 fi
 
-# Step 2: Install Git, Git Flow, and Curl based on the detected OS
+# Check if Git is already installed
+if command -v git &> /dev/null; then
+    info "Git is already installed: $(git --version)"
+    GIT_INSTALLED=true
+else
+    info "Git is not installed. Attempting to install it..."
+fi
+
+# Check if Git Flow is already installed
+if command -v git-flow &> /dev/null; then
+    info "Git Flow is already installed: $(git-flow version)"
+    GIT_FLOW_INSTALLED=true
+else
+    info "Git Flow is not installed. Attempting to install it..."
+fi
+
+# Step 2: Install Curl, Git, and Git Flow based on the detected OS
 case "$OS" in
     ubuntu|debian|raspbian|wsl)
-        info "Updating package database for $OS..."
         sudo apt-get update -y
-
-        info "Installing Git (Version control system)..."
-        sudo apt-get install -y git
-
-        info "Installing Git Flow (Branch management for Git)..."
-        sudo apt-get install -y git-flow
-
-        info "Installing Curl (Command-line tool for transferring data)..."
-        sudo apt-get install -y curl
+        if [ "$CURL_INSTALLED" = false ]; then
+            info "Installing Curl..."
+            sudo apt-get install -y curl
+        fi
+        if [ "$GIT_INSTALLED" = false ]; then
+            info "Installing Git..."
+            sudo apt-get install -y git
+        fi
+        if [ "$GIT_FLOW_INSTALLED" = false ]; then
+            info "Installing Git Flow..."
+            sudo apt-get install -y git-flow
+        fi
         ;;
 
     manjaro|arch)
-        info "Updating package database for $OS..."
         pamac update --force-refresh
-
-        info "Installing Git (Version control system)..."
-        pamac install --no-confirm git
-
-        info "Installing Curl (Command-line tool for transferring data)..."
-        pamac install --no-confirm curl
-
-        # Check if git-flow is available in the official repo
-        if pamac info git-flow &>/dev/null; then
-            info "Installing Git Flow (Branch management for Git)..."
-            pamac install --no-confirm git-flow
-        else
-            warning "Git Flow not found in the official repositories."
-
-            # Check if yay is installed
-            if ! command -v yay &>/dev/null; then
-                info "Installing yay (AUR helper)..."
-                pamac install --no-confirm yay
+        if [ "$CURL_INSTALLED" = false ]; then
+            info "Installing Curl..."
+            pamac install --no-confirm curl
+        fi
+        if [ "$GIT_INSTALLED" = false ]; then
+            info "Installing Git..."
+            pamac install --no-confirm git
+        fi
+        if [ "$GIT_FLOW_INSTALLED" = false ]; then
+            info "Installing Git Flow..."
+            if pamac info git-flow &>/dev/null; then
+                pamac install --no-confirm git-flow
+            else
+                warning "Git Flow not found in the official repositories. Installing from AUR..."
+                if ! command -v yay &>/dev/null; then
+                    info "Installing yay (AUR helper)..."
+                    pamac install --no-confirm yay
+                fi
+                yay -S --noconfirm gitflow-avh
             fi
-
-            info "Installing Git Flow from AUR..."
-            yay -S --noconfirm gitflow-avh
         fi
         ;;
 
     fedora)
-        info "Updating package database for Fedora..."
         sudo dnf update -y
-
-        info "Installing Git and Curl..."
-        sudo dnf install -y git curl
-
-        info "Installing Git Flow..."
-        sudo dnf install -y gitflow
-        ;;
-
-    centos|redhat)
-        info "Detected CentOS/Red Hat system."
-        sudo yum update -y
-        sudo yum install -y epel-release
-
-        info "Installing Git and Curl..."
-        sudo yum install -y git curl
-
-        info "Installing Git Flow..."
-        sudo yum install -y gitflow
-        ;;
-
-    opensuse)
-        info "Detected openSUSE system."
-        sudo zypper refresh
-
-        info "Installing Git and Curl..."
-        sudo zypper install -y git curl
-
-        info "Installing Git Flow..."
-        sudo zypper install -y git-flow
-        ;;
-
-    alpine)
-        info "Detected Alpine Linux."
-        sudo apk update
-
-        info "Installing Git and Curl..."
-        sudo apk add git curl
-
-        info "Git Flow is not available on Alpine. You can install it manually if needed."
+        if [ "$CURL_INSTALLED" = false ]; then
+            info "Installing Curl..."
+            sudo dnf install -y curl
+        fi
+        if [ "$GIT_INSTALLED" = false ]; then
+            info "Installing Git..."
+            sudo dnf install -y git
+        fi
+        if [ "$GIT_FLOW_INSTALLED" = false ]; then
+            info "Installing Git Flow..."
+            sudo dnf install -y gitflow
+        fi
         ;;
 
     macos)
         if command -v brew &> /dev/null; then
-            info "Using Homebrew to install Git..."
-            brew install git
-
-            info "Installing Curl via Homebrew..."
-            brew install curl
-
-            info "Installing Git Flow via Homebrew..."
-            brew install git-flow-avh
+            if [ "$CURL_INSTALLED" = false ]; then
+                info "Installing Curl via Homebrew..."
+                brew install curl
+            fi
+            if [ "$GIT_INSTALLED" = false ]; then
+                info "Installing Git via Homebrew..."
+                brew install git
+            fi
+            if [ "$GIT_FLOW_INSTALLED" = false ]; then
+                info "Installing Git Flow via Homebrew..."
+                brew install git-flow-avh
+            fi
         else
             error "Homebrew is not installed. Please install Homebrew first: https://brew.sh/"
-            exit 1
-        fi
-        ;;
-
-    linux)
-        info "Detected a generic Linux distribution. Attempting to install via snap..."
-        if command -v snap &> /dev/null; then
-            info "Installing Git via snap..."
-            sudo snap install git
-
-            info "Installing Curl via snap..."
-            sudo snap install curl
-        else
-            error "Snap is not installed. Please install Snap or use your package manager to install Git and Curl."
             exit 1
         fi
         ;;
@@ -164,18 +148,23 @@ case "$OS" in
 esac
 
 # Step 3: Verify installation
-info "Verifying Git installation..."
-git --version
+if command -v curl &> /dev/null; then
+    info "✅ Curl successfully installed."
+else
+    error "❌ Curl installation failed."
+fi
 
-info "Verifying Git Flow installation..."
+if command -v git &> /dev/null; then
+    info "✅ Git successfully installed."
+else
+    error "❌ Git installation failed."
+fi
+
 if command -v git-flow &> /dev/null; then
-    info "✅ Git Flow installed successfully."
+    info "✅ Git Flow successfully installed."
 else
     warning "❌ Git Flow installation failed or not available on this OS."
 fi
-
-info "Verifying Curl installation..."
-curl --version
 
 # Check git config
 if ! git config --get user.name >/dev/null 2>&1; then
