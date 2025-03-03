@@ -2,24 +2,23 @@
 
 # Script to check if a given script is executable and fix permissions if necessary
 
-# Colors for output
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[0m"
+# Source the print messages script
+PRINT_MESSAGES_SCRIPT="./print_messages.sh"
 
-# Function to print messages
-info() {
-    echo -e "${GREEN}[INFO]${RESET} $1"
-}
+# Check if print_messages.sh is executable
+if [[ ! -x "$PRINT_MESSAGES_SCRIPT" ]]; then
+    echo "[WARNING] print_messages.sh is not executable. Attempting to fix permissions..."
+    chmod +x "$PRINT_MESSAGES_SCRIPT"
+    if [[ $? -ne 0 ]]; then
+        echo "[ERROR] Failed to add execute permissions to print_messages.sh. Please run: chmod +x $PRINT_MESSAGES_SCRIPT"
+        exit 1
+    else
+        echo "[INFO] Permissions fixed for print_messages.sh."
+    fi
+fi
 
-warning() {
-    echo -e "${YELLOW}[WARNING]${RESET} $1"
-}
-
-error() {
-    echo -e "${RED}[ERROR]${RESET} $1"
-}
+# Source the print_messages.sh to use the functions
+source $PRINT_MESSAGES_SCRIPT
 
 # Check if a script path was provided
 if [[ -z "$1" ]]; then
