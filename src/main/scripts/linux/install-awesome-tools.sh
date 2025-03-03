@@ -3,171 +3,164 @@
 # Utilities Installation Script for Multiple OS
 # This script installs Baobab, Shutter, KTouch, and Shotwell based on the detected OS
 
+# Colors for output
+GREEN="\e[32m"
+YELLOW="\e[33m"
+RED="\e[31m"
+RESET="\e[0m"
+
+# Function to print messages
+info() {
+    echo -e "${GREEN}[INFO]${RESET} $1"
+}
+
+warning() {
+    echo -e "${YELLOW}[WARNING]${RESET} $1"
+}
+
+error() {
+    echo -e "${RED}[ERROR]${RESET} $1"
+}
+
+# Path to detect_os.sh
+DETECT_OS_SCRIPT="./detect_os.sh"
+
+# Check if detect_os.sh is executable
+if [[ ! -x "$DETECT_OS_SCRIPT" ]]; then
+    warning "detect_os.sh is not executable. Attempting to fix permissions..."
+    chmod +x "$DETECT_OS_SCRIPT"
+    if [[ $? -ne 0 ]]; then
+        error "Failed to add execute permissions to detect_os.sh. Please run: chmod +x $DETECT_OS_SCRIPT"
+        exit 1
+    else
+        info "Permissions fixed for detect_os.sh."
+    fi
+fi
+
 # Step 1: Detect OS using the external script
-OS=$(./detect_os.sh)
+OS=$($DETECT_OS_SCRIPT)
 
 # Check if the OS detection script ran successfully
 if [[ -z "$OS" || "$OS" == "unknown" ]]; then
-    echo "Could not detect the OS or unsupported OS detected."
+    error "Could not detect the OS or unsupported OS detected."
     exit 1
 fi
 
-echo "Detected OS: $OS"
+info "Detected OS: $OS"
 
-# Step 2: Install utilities based on the detected OS
+# Check if utilities are already installed
+for utility in baobab shutter ktouch shotwell; do
+    if command -v $utility &> /dev/null; then
+        info "$utility is already installed. Skipping installation."
+        installed_utilities+=($utility)
+    else
+        to_install+=($utility)
+    fi
+done
+
+if [[ ${#to_install[@]} -eq 0 ]]; then
+    info "All utilities are already installed. Exiting."
+    exit 0
+fi
+
+# Step 2: Install missing utilities based on the detected OS
 case "$OS" in
     ubuntu|debian|raspbian|wsl)
-        echo "Updating package database for $OS..."
+        info "Updating package database for $OS..."
         sudo apt-get update -y
-
-        echo "Installing Baobab (Disk Usage Analyzer)..."
-        sudo apt-get install -y baobab
-
-        echo "Installing Shutter (Screenshot Tool)..."
-        sudo apt-get install -y shutter
-
-        echo "Installing KTouch (Typing Tutor)..."
-        sudo apt-get install -y ktouch
-
-        echo "Installing Shotwell (Photo Organizer)..."
-        sudo apt-get install -y shotwell
+        for utility in "${to_install[@]}"; do
+            info "Installing $utility..."
+            sudo apt-get install -y $utility
+        done
         ;;
 
     manjaro|arch)
-        echo "Updating package database for $OS..."
+        info "Updating package database for $OS..."
         pamac update --force-refresh
-
-        echo "Installing Baobab (Disk Usage Analyzer)..."
-        pamac install --no-confirm baobab
-
-        echo "Installing Shutter (Screenshot Tool)..."
-        pamac install --no-confirm shutter
-
-        echo "Installing KTouch (Typing Tutor)..."
-        pamac install --no-confirm ktouch
-
-        echo "Installing Shotwell (Photo Organizer)..."
-        pamac install --no-confirm shotwell
+        for utility in "${to_install[@]}"; do
+            info "Installing $utility..."
+            pamac install --no-confirm $utility
+        done
         ;;
 
     fedora)
-        echo "Updating package database for $OS..."
+        info "Updating package database for $OS..."
         sudo dnf update -y
-
-        echo "Installing Baobab (Disk Usage Analyzer)..."
-        sudo dnf install -y baobab
-
-        echo "Installing Shutter (Screenshot Tool)..."
-        sudo dnf install -y shutter
-
-        echo "Installing KTouch (Typing Tutor)..."
-        sudo dnf install -y ktouch
-
-        echo "Installing Shotwell (Photo Organizer)..."
-        sudo dnf install -y shotwell
+        for utility in "${to_install[@]}"; do
+            info "Installing $utility..."
+            sudo dnf install -y $utility
+        done
         ;;
 
     centos|redhat)
-        echo "Updating package database for $OS..."
+        info "Updating package database for $OS..."
         sudo yum update -y
-
-        echo "Installing EPEL repository on $OS..."
         sudo yum install -y epel-release
-
-        echo "Installing Baobab (Disk Usage Analyzer)..."
-        sudo yum install -y baobab
-
-        echo "Installing Shutter (Screenshot Tool)..."
-        sudo yum install -y shutter
-
-        echo "Installing KTouch (Typing Tutor)..."
-        sudo yum install -y ktouch
-
-        echo "Installing Shotwell (Photo Organizer)..."
-        sudo yum install -y shotwell
+        for utility in "${to_install[@]}"; do
+            info "Installing $utility..."
+            sudo yum install -y $utility
+        done
         ;;
 
     opensuse)
-        echo "Updating package database for $OS..."
+        info "Updating package database for $OS..."
         sudo zypper refresh
-
-        echo "Installing Baobab (Disk Usage Analyzer)..."
-        sudo zypper install -y baobab
-
-        echo "Installing Shutter (Screenshot Tool)..."
-        sudo zypper install -y shutter
-
-        echo "Installing KTouch (Typing Tutor)..."
-        sudo zypper install -y ktouch
-
-        echo "Installing Shotwell (Photo Organizer)..."
-        sudo zypper install -y shotwell
+        for utility in "${to_install[@]}"; do
+            info "Installing $utility..."
+            sudo zypper install -y $utility
+        done
         ;;
 
     alpine)
-        echo "Updating package database for $OS..."
+        info "Updating package database for $OS..."
         sudo apk update
-
-        echo "Installing Baobab (Disk Usage Analyzer)..."
-        sudo apk add baobab
-
-        echo "Installing Shutter (Screenshot Tool)..."
-        sudo apk add shutter
-
-        echo "Installing KTouch (Typing Tutor)..."
-        sudo apk add ktouch
-
-        echo "Installing Shotwell (Photo Organizer)..."
-        sudo apk add shotwell
+        for utility in "${to_install[@]}"; do
+            info "Installing $utility..."
+            sudo apk add $utility
+        done
         ;;
 
     macos)
         if command -v brew &> /dev/null; then
-            echo "Homebrew is installed. Updating..."
+            info "Homebrew is installed. Updating..."
             brew update
-
-            echo "Installing Baobab (Disk Usage Analyzer)..."
-            brew install baobab
-
-            echo "Installing Shutter (Screenshot Tool)..."
-            brew install shutter
-
-            echo "Installing KTouch (Typing Tutor)..."
-            brew install ktouch
-
-            echo "Installing Shotwell (Photo Organizer)..."
-            brew install shotwell
+            for utility in "${to_install[@]}"; do
+                info "Installing $utility..."
+                brew install $utility
+            done
         else
-            echo "Homebrew is not installed. Please install Homebrew first: https://brew.sh"
+            error "Homebrew is not installed. Please install Homebrew first: https://brew.sh"
             exit 1
         fi
         ;;
 
     linux)
-        echo "Detected a generic Linux distribution. Attempting to install via snap..."
+        info "Detected a generic Linux distribution. Attempting to install via snap..."
         if command -v snap &> /dev/null; then
-            echo "Installing utilities via snap..."
-            sudo snap install baobab shutter ktouch shotwell
+            for utility in "${to_install[@]}"; do
+                info "Installing $utility via snap..."
+                sudo snap install $utility
+            done
         else
-            echo "Snap is not installed. Please install Snap or use your package manager to install utilities."
+            error "Snap is not installed. Please install Snap or use your package manager to install utilities."
             exit 1
         fi
         ;;
 
     *)
-        echo "Unsupported OS: $OS"
+        error "Unsupported OS: $OS"
         exit 1
         ;;
 esac
 
 # Step 3: Verify installation
-echo "Verifying installation..."
-for utility in baobab shutter ktouch shotwell; do
+info "Verifying installation..."
+for utility in "${to_install[@]}"; do
     if command -v $utility &> /dev/null; then
-        echo "✅ $utility installed successfully."
+        info "✅ $utility installed successfully."
     else
-        echo "❌ $utility installation failed. Please check for errors."
+        error "❌ $utility installation failed. Please check for errors."
     fi
 done
 
-echo "All installations completed successfully on $OS."
+info "All installations completed successfully on $OS."
