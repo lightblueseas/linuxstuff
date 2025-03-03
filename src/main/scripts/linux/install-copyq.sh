@@ -3,105 +3,119 @@
 # CopyQ Installation Script for Multiple OS
 # This script installs CopyQ based on the detected OS
 
-# Step 1: Detect OS using the external script
-OS=$(./detect_os.sh)
+# Source the common initialization script
+source ./init_scripts.sh
 
-# Check if the OS detection script ran successfully
-if [[ -z "$OS" || "$OS" == "unknown" ]]; then
-    echo "Could not detect the OS or unsupported OS detected."
-    exit 1
+# Check if CopyQ is already installed
+if command -v copyq &> /dev/null; then
+    info "CopyQ is already installed: $(copyq --version 2>/dev/null | head -n 1)"
+    exit 0
 fi
 
-echo "Detected OS: $OS"
+info "CopyQ is not installed. Preparing to install it..."
+
+# Create an array for components to install
+TO_INSTALL=("copyq")
 
 # Step 2: Install CopyQ based on the detected OS
 case "$OS" in
     ubuntu|debian|raspbian|wsl)
-        echo "Updating package database for $OS..."
-        sudo apt-get update
-
-        echo "Installing CopyQ on $OS..."
-        sudo apt-get install -y copyq
+        info "Detected Debian-based system. Updating package database..."
+        sudo apt-get update -y
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            sudo apt-get install -y "$component"
+        done
         ;;
 
     manjaro|arch)
-        echo "Updating package database for $OS..."
+        info "Detected Arch-based system. Updating package database..."
         pamac update --force-refresh
-
-        echo "Installing CopyQ on $OS..."
-        pamac install --no-confirm copyq
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            pamac install --no-confirm "$component"
+        done
         ;;
 
     fedora)
-        echo "Updating package database for $OS..."
+        info "Detected Fedora system. Updating package database..."
         sudo dnf update -y
-
-        echo "Installing CopyQ on $OS..."
-        sudo dnf install -y copyq
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            sudo dnf install -y "$component"
+        done
         ;;
 
     centos|redhat)
-        echo "Updating package database for $OS..."
+        info "Detected CentOS/Red Hat system. Updating package database..."
         sudo yum update -y
-
-        echo "Installing EPEL repository on $OS..."
         sudo yum install -y epel-release
-
-        echo "Installing CopyQ on $OS..."
-        sudo yum install -y copyq
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            sudo yum install -y "$component"
+        done
         ;;
 
     opensuse)
-        echo "Updating package database for $OS..."
+        info "Detected openSUSE system. Updating package database..."
         sudo zypper refresh
-
-        echo "Installing CopyQ on $OS..."
-        sudo zypper install -y copyq
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            sudo zypper install -y "$component"
+        done
         ;;
 
     alpine)
-        echo "Updating package database for $OS..."
+        info "Detected Alpine Linux. Updating package database..."
         sudo apk update
-
-        echo "Installing CopyQ on $OS..."
-        sudo apk add copyq
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component on $OS..."
+            sudo apk add "$component"
+        done
         ;;
 
     macos)
         if command -v brew &> /dev/null; then
-            echo "Homebrew is installed. Updating..."
+            info "Homebrew is installed. Updating..."
             brew update
-
-            echo "Installing CopyQ on macOS..."
-            brew install copyq
+            for component in "${TO_INSTALL[@]}"; do
+                info "Installing $component on macOS..."
+                brew install "$component"
+            done
         else
-            echo "Homebrew is not installed. Please install Homebrew first: https://brew.sh"
+            error "Homebrew is not installed. Please install Homebrew first: https://brew.sh"
             exit 1
         fi
         ;;
 
     linux)
-        echo "Detected a generic Linux distribution. Attempting to install via snap..."
+        info "Detected a generic Linux distribution. Attempting to install via snap..."
         if command -v snap &> /dev/null; then
-            echo "Installing CopyQ via snap..."
-            sudo snap install copyq
+            for component in "${TO_INSTALL[@]}"; do
+                info "Installing $component via snap..."
+                sudo snap install "$component"
+            done
         else
-            echo "Snap is not installed. Please install Snap or use your package manager to install CopyQ."
+            error "Snap is not installed. Please install Snap or use your package manager to install CopyQ."
             exit 1
         fi
         ;;
 
     *)
-        echo "Unsupported OS: $OS"
+        error "Unsupported OS: $OS"
         exit 1
         ;;
 esac
 
 # Step 3: Verify installation
-echo "Verifying CopyQ installation..."
-if command -v copyq &> /dev/null; then
-    echo "✅ CopyQ installed successfully."
-else
-    echo "❌ CopyQ installation failed. Please check for errors."
-    exit 1
-fi
+info "Verifying CopyQ installation..."
+for component in "${TO_INSTALL[@]}"; do
+    if command -v "$component" &> /dev/null; then
+        info "✅ $component installed successfully."
+    else
+        error "❌ $component installation failed. Please check for errors."
+        exit 1
+    fi
+done
+
+info "CopyQ installation completed successfully on $OS."
