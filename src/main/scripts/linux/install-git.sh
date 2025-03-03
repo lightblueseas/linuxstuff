@@ -3,138 +3,103 @@
 # Git Installation Script for Multiple OS
 # This script installs Git, Git Flow, and Curl based on the detected OS
 
-# Colors for output
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[0m"
+# Source the common initialization script
+source ./init_scripts.sh
 
-# Function to print messages
-info() {
-    echo -e "${GREEN}[INFO]${RESET} $1"
+# Create an array for components to install
+TO_INSTALL=()
+
+# Descriptions for each package
+declare -A descriptions=(
+    ["curl"]="Command line tool for transferring data with URLs."
+    ["git"]="Version control system to track changes in source code."
+    ["git-flow"]="Extensions for Git to provide high-level repository operations."
+)
+
+# Check if each component is already installed
+check_installed() {
+    if command -v $1 &> /dev/null; then
+        info "$1 is already installed. Skipping installation."
+        return 0
+    else
+        return 1
+    fi
 }
 
-warning() {
-    echo -e "${YELLOW}[WARNING]${RESET} $1"
-}
+# Check and add missing components to the installation list
+for package in "${!descriptions[@]}"; do
+    if check_installed $package; then
+        continue
+    else
+        info "Preparing to install ${descriptions[$package]}"
+        TO_INSTALL+=($package)
+    fi
+done
 
-error() {
-    echo -e "${RED}[ERROR]${RESET} $1"
-}
-
-# Step 1: Detect OS using the external script
-OS=$(./detect_os.sh)
-
-# Check if the OS detection script ran successfully
-if [[ -z "$OS" || "$OS" == "unknown" ]]; then
-    error "Could not detect the OS or unsupported OS detected."
-    exit 1
+# Exit if all packages are already installed
+if [[ ${#TO_INSTALL[@]} -eq 0 ]]; then
+    info "All Git components are already installed. Exiting."
+    exit 0
 fi
 
-info "Detected OS: $OS"
+# Run sudo only if there are packages to install
+info "Components to install: ${TO_INSTALL[*]}"
 
-# Flags to track installation status
-CURL_INSTALLED=false
-GIT_INSTALLED=false
-GIT_FLOW_INSTALLED=false
-
-# Check if Curl is already installed
-if command -v curl &> /dev/null; then
-    info "Curl is already installed: $(curl --version | head -n 1)"
-    CURL_INSTALLED=true
-else
-    info "Curl is not installed. Attempting to install it..."
-fi
-
-# Check if Git is already installed
-if command -v git &> /dev/null; then
-    info "Git is already installed: $(git --version)"
-    GIT_INSTALLED=true
-else
-    info "Git is not installed. Attempting to install it..."
-fi
-
-# Check if Git Flow is already installed
-if command -v git-flow &> /dev/null; then
-    info "Git Flow is already installed: $(git-flow version)"
-    GIT_FLOW_INSTALLED=true
-else
-    info "Git Flow is not installed. Attempting to install it..."
-fi
-
-# Step 2: Install Curl, Git, and Git Flow based on the detected OS
+# Step 2: Install missing components based on the detected OS
 case "$OS" in
     ubuntu|debian|raspbian|wsl)
+        info "Detected Debian-based system. Updating package database..."
         sudo apt-get update -y
-        if [ "$CURL_INSTALLED" = false ]; then
-            info "Installing Curl..."
-            sudo apt-get install -y curl
-        fi
-        if [ "$GIT_INSTALLED" = false ]; then
-            info "Installing Git..."
-            sudo apt-get install -y git
-        fi
-        if [ "$GIT_FLOW_INSTALLED" = false ]; then
-            info "Installing Git Flow..."
-            sudo apt-get install -y git-flow
-        fi
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component (${descriptions[$component]}) on $OS..."
+            sudo apt-get install -y "$component"
+        done
         ;;
 
     manjaro|arch)
+        info "Detected Arch-based system. Updating package database..."
         pamac update --force-refresh
-        if [ "$CURL_INSTALLED" = false ]; then
-            info "Installing Curl..."
-            pamac install --no-confirm curl
-        fi
-        if [ "$GIT_INSTALLED" = false ]; then
-            info "Installing Git..."
-            pamac install --no-confirm git
-        fi
-        if [ "$GIT_FLOW_INSTALLED" = false ]; then
-            info "Installing Git Flow..."
-            if pamac info git-flow &>/dev/null; then
-                pamac install --no-confirm git-flow
+
+        # Filter out already installed packages
+        MISSING_PACKAGES=()
+        for component in "${TO_INSTALL[@]}"; do
+            if pacman -Qq "$component" &> /dev/null; then
+                info "$component is already installed. Skipping installation."
             else
-                warning "Git Flow not found in the official repositories. Installing from AUR..."
-                if ! command -v yay &>/dev/null; then
-                    info "Installing yay (AUR helper)..."
-                    pamac install --no-confirm yay
-                fi
-                yay -S --noconfirm gitflow-avh
+                MISSING_PACKAGES+=("$component")
             fi
+        done
+
+        # Exit if no packages are missing
+        if [[ ${#MISSING_PACKAGES[@]} -eq 0 ]]; then
+            info "All requested components are already installed. Exiting."
+            exit 0
         fi
+
+        # Install missing packages
+        for component in "${MISSING_PACKAGES[@]}"; do
+            info "Installing $component (${descriptions[$component]}) on $OS..."
+            pamac install --no-confirm "$component"
+        done
         ;;
 
     fedora)
+        info "Detected Fedora system. Updating package database..."
         sudo dnf update -y
-        if [ "$CURL_INSTALLED" = false ]; then
-            info "Installing Curl..."
-            sudo dnf install -y curl
-        fi
-        if [ "$GIT_INSTALLED" = false ]; then
-            info "Installing Git..."
-            sudo dnf install -y git
-        fi
-        if [ "$GIT_FLOW_INSTALLED" = false ]; then
-            info "Installing Git Flow..."
-            sudo dnf install -y gitflow
-        fi
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component (${descriptions[$component]}) on $OS..."
+            sudo dnf install -y "$component"
+        done
         ;;
 
     macos)
         if command -v brew &> /dev/null; then
-            if [ "$CURL_INSTALLED" = false ]; then
-                info "Installing Curl via Homebrew..."
-                brew install curl
-            fi
-            if [ "$GIT_INSTALLED" = false ]; then
-                info "Installing Git via Homebrew..."
-                brew install git
-            fi
-            if [ "$GIT_FLOW_INSTALLED" = false ]; then
-                info "Installing Git Flow via Homebrew..."
-                brew install git-flow-avh
-            fi
+            info "Homebrew is installed. Updating..."
+            brew update
+            for component in "${TO_INSTALL[@]}"; do
+                info "Installing $component (${descriptions[$component]}) on macOS..."
+                brew install "$component"
+            done
         else
             error "Homebrew is not installed. Please install Homebrew first: https://brew.sh/"
             exit 1
@@ -148,23 +113,13 @@ case "$OS" in
 esac
 
 # Step 3: Verify installation
-if command -v curl &> /dev/null; then
-    info "✅ Curl successfully installed."
-else
-    error "❌ Curl installation failed."
-fi
-
-if command -v git &> /dev/null; then
-    info "✅ Git successfully installed."
-else
-    error "❌ Git installation failed."
-fi
-
-if command -v git-flow &> /dev/null; then
-    info "✅ Git Flow successfully installed."
-else
-    warning "❌ Git Flow installation failed or not available on this OS."
-fi
+for component in "${TO_INSTALL[@]}"; do
+    if command -v "$component" &> /dev/null; then
+        info "✅ $component installed successfully."
+    else
+        error "❌ $component installation failed. Please check for errors."
+    fi
+done
 
 # Check git config
 if ! git config --get user.name >/dev/null 2>&1; then
