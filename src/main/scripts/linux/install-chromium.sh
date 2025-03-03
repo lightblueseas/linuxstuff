@@ -3,142 +3,184 @@
 # Chromium Installation Script for Multiple OS
 # This script installs Chromium Browser and related packages based on the detected OS
 
-# Function to check if a command exists
-command_exists() {
-    command -v "$1" >/dev/null 2>&1
-}
+# Path to external scripts
+PRINT_MESSAGES_SCRIPT="./print_messages.sh"
+CHECK_PERMISSIONS_SCRIPT="./detect_script_permissions.sh"
+DETECT_OS_SCRIPT="./detect_os.sh"
 
-# Step 1: Detect OS using the external script
-OS=$(./detect_os.sh)
+# Ensure external scripts exist and have execute permissions
+for SCRIPT in "$PRINT_MESSAGES_SCRIPT" "$CHECK_PERMISSIONS_SCRIPT" "$DETECT_OS_SCRIPT"; do
+    if [[ ! -f "$SCRIPT" ]]; then
+        echo "[ERROR] $SCRIPT not found. Please make sure it is in the same directory."
+        exit 1
+    elif [[ ! -x "$SCRIPT" ]]; then
+        echo "[WARNING] $SCRIPT is not executable. Attempting to fix permissions..."
+        chmod +x "$SCRIPT"
+        if [[ $? -ne 0 ]]; then
+            echo "[ERROR] Failed to add execute permissions to $SCRIPT. Please run: chmod +x $SCRIPT"
+            exit 1
+        else
+            echo "[INFO] Permissions fixed for $SCRIPT."
+        fi
+    fi
+done
 
-# Check if the OS detection script ran successfully
-if [[ -z "$OS" || "$OS" == "unknown" ]]; then
-    echo "Could not detect the OS or unsupported OS detected."
+# Source the print messages script
+source $PRINT_MESSAGES_SCRIPT
+
+# Run the permission check for detect_os.sh using detect_script_permissions.sh
+$CHECK_PERMISSIONS_SCRIPT "$DETECT_OS_SCRIPT"
+if [[ $? -ne 0 ]]; then
+    error "Failed to ensure execute permissions for $DETECT_OS_SCRIPT"
     exit 1
 fi
 
-echo "Detected OS: $OS"
+# Step 1: Detect OS using the external script
+OS=$($DETECT_OS_SCRIPT)
 
-# Check if Chromium is already installed
-if command_exists chromium-browser; then
-    echo "Chromium Browser is already installed: $(chromium-browser --version)"
+# Check if the OS detection script ran successfully
+if [[ -z "$OS" || "$OS" == "unknown" ]]; then
+    error "Could not detect the OS or unsupported OS detected."
+    exit 1
+fi
+
+info "Detected OS: $OS"
+
+# Function to check if a package is installed
+check_installed() {
+    case "$OS" in
+        ubuntu|debian|raspbian|wsl)
+            dpkg -s "$1" &> /dev/null
+            ;;
+        manjaro|arch)
+            pacman -Qi "$1" &> /dev/null
+            ;;
+        fedora|centos|redhat|opensuse)
+            rpm -q "$1" &> /dev/null
+            ;;
+        alpine)
+            apk info "$1" &> /dev/null
+            ;;
+        macos)
+            brew list "$1" &> /dev/null
+            ;;
+        linux)
+            snap list "$1" &> /dev/null
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+# Create an array for packages to install
+to_install=()
+
+# Descriptions for each package
+declare -A descriptions=(
+    ["chromium-browser"]="Open-source web browser."
+    ["chromium-browser-l10n"]="Language packs for Chromium Browser."
+    ["chromium-codecs-ffmpeg"]="Basic media codecs for Chromium."
+    ["chromium-codecs-ffmpeg-extra"]="Additional media codecs for Chromium."
+)
+
+# Check and add missing packages to the installation list
+for package in "${!descriptions[@]}"; do
+    if check_installed $package; then
+        info "$package is already installed. Skipping."
+    else
+        info "Preparing to install ${descriptions[$package]}"
+        to_install+=($package)
+    fi
+done
+
+# Exit if all packages are already installed
+if [[ ${#to_install[@]} -eq 0 ]]; then
+    info "All packages are already installed. Exiting."
     exit 0
 fi
 
-echo "Chromium Browser is not installed. Attempting to install it..."
+info "Chromium Browser is not fully installed. Attempting to install missing components..."
 
-# Step 2: Install Chromium based on the detected OS
+# Step 2: Install missing packages based on the detected OS
 case "$OS" in
     ubuntu|debian|raspbian|wsl)
-        echo "Detected Debian-based system."
+        info "Updating package database for $OS..."
         sudo apt-get update -y
-
-        echo "Installing Chromium Browser (Open-source web browser)..."
-        sudo apt-get install -y chromium-browser
-
-        echo "Installing Chromium Browser L10N (Language packs)..."
-        sudo apt-get install -y chromium-browser-l10n
-
-        echo "Installing Chromium Codecs FFmpeg (Basic media codecs)..."
-        sudo apt-get install -y chromium-codecs-ffmpeg
-
-        echo "Installing Chromium Codecs FFmpeg Extra (Additional media codecs)..."
-        sudo apt-get install -y chromium-codecs-ffmpeg-extra
+        for package in "${to_install[@]}"; do
+            info "Installing $package..."
+            sudo apt-get install -y $package
+        done
         ;;
 
     manjaro|arch)
-        echo "Detected Arch-based system."
-        echo "Updating package database..."
+        info "Detected Arch-based system."
         pamac update --force-refresh
-
-        echo "Installing Chromium Browser (Open-source web browser)..."
-        pamac install --no-confirm chromium
-
-        echo "Installing FFmpeg (Media codecs for Chromium)..."
-        pamac install --no-confirm ffmpeg
+        for package in "${to_install[@]}"; do
+            info "Installing $package..."
+            pamac install --no-confirm $package
+        done
         ;;
 
-    fedora)
-        echo "Detected Fedora system."
-        sudo dnf update -y
-
-        echo "Installing Chromium Browser (Open-source web browser)..."
-        sudo dnf install -y chromium
-
-        echo "Installing FFmpeg (Media codecs for Chromium)..."
-        sudo dnf install -y ffmpeg
-        ;;
-
-    centos|redhat)
-        echo "Detected CentOS/Red Hat system."
-        sudo yum update -y
-
-        echo "Installing EPEL repository on $OS..."
-        sudo yum install -y epel-release
-
-        echo "Installing Chromium Browser (Open-source web browser)..."
-        sudo yum install -y chromium
-
-        echo "Installing FFmpeg (Media codecs for Chromium)..."
-        sudo yum install -y ffmpeg
-        ;;
-
-    opensuse)
-        echo "Detected openSUSE system."
-        sudo zypper refresh
-
-        echo "Installing Chromium Browser (Open-source web browser)..."
-        sudo zypper install -y chromium
-
-        echo "Installing FFmpeg (Media codecs for Chromium)..."
-        sudo zypper install -y ffmpeg
+    fedora|centos|redhat|opensuse)
+        info "Detected RPM-based system."
+        sudo dnf update -y || sudo yum update -y
+        for package in "${to_install[@]}"; do
+            info "Installing $package..."
+            sudo dnf install -y $package || sudo yum install -y $package
+        done
         ;;
 
     alpine)
-        echo "Detected Alpine Linux."
+        info "Detected Alpine Linux."
         sudo apk update
-
-        echo "Installing Chromium Browser (Open-source web browser)..."
-        sudo apk add chromium
-
-        echo "Installing FFmpeg (Media codecs for Chromium)..."
-        sudo apk add ffmpeg
+        for package in "${to_install[@]}"; do
+            info "Installing $package..."
+            sudo apk add $package
+        done
         ;;
 
     macos)
-        if command_exists brew; then
-            echo "Using Homebrew to install Chromium Browser..."
-            brew install --cask chromium
+        if command -v brew &> /dev/null; then
+            info "Using Homebrew to install missing packages..."
+            brew update
+            for package in "${to_install[@]}"; do
+                info "Installing $package..."
+                brew install --cask $package
+            done
         else
-            echo "Homebrew is not installed. Please install Homebrew first: https://brew.sh/"
+            error "Homebrew is not installed. Please install Homebrew first: https://brew.sh/"
             exit 1
         fi
         ;;
 
     linux)
-        echo "Detected a generic Linux distribution. Attempting to install via snap..."
-        if command_exists snap; then
-            echo "Installing Chromium Browser via snap..."
-            sudo snap install chromium
+        info "Detected a generic Linux distribution. Attempting to install via snap..."
+        if command -v snap &> /dev/null; then
+            for package in "${to_install[@]}"; do
+                info "Installing $package via snap..."
+                sudo snap install $package
+            done
         else
-            echo "Snap is not installed. Please install Snap or use your package manager to install Chromium Browser."
+            error "Snap is not installed. Please install Snap or use your package manager to install Chromium Browser."
             exit 1
         fi
         ;;
 
     *)
-        echo "Unsupported OS: $OS"
+        error "Unsupported OS: $OS"
         exit 1
         ;;
 esac
 
 # Step 3: Verify installation
-echo "Verifying Chromium Browser installation..."
-if command_exists chromium-browser || command_exists chromium; then
-    echo "✅ Chromium Browser successfully installed: $(chromium-browser --version 2>/dev/null || chromium --version)"
-else
-    echo "❌ Chromium Browser installation failed. Please try installing it manually."
-    exit 1
-fi
+info "Verifying Chromium Browser installation..."
+for package in "${to_install[@]}"; do
+    if check_installed $package; then
+        info "✅ $package installed successfully."
+    else
+        error "❌ $package installation failed. Please check for errors."
+    fi
+done
 
-echo "Chromium Browser installation completed successfully on $OS."
+info "Chromium Browser installation completed successfully on $OS."
