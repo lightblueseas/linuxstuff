@@ -48,11 +48,22 @@ fi
 
 info "Detected OS: $OS"
 
-# Check if utilities are already installed
+# Check if each utility is already installed
+check_installed() {
+    if command -v $1 &> /dev/null; then
+        info "$1 is already installed. Skipping installation."
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Create an array for utilities to install
+to_install=()
+
 for utility in baobab shutter ktouch shotwell; do
-    if command -v $utility &> /dev/null; then
-        info "$utility is already installed. Skipping installation."
-        installed_utilities+=($utility)
+    if check_installed $utility; then
+        continue
     else
         to_install+=($utility)
     fi
