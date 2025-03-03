@@ -3,7 +3,7 @@
 # Node.js and npm Installation Script for Multiple OS
 # This script installs Node.js, npm, and sets up necessary permissions for global npm packages
 
-# Source the common initialization script
+# Source the common initialization script if it exists
 source ./init_scripts.sh
 
 # Create an array for components to install
@@ -18,21 +18,14 @@ declare -A descriptions=(
 # Adjust package names based on the OS
 case "$OS" in
     manjaro|arch)
-        descriptions=(
-            ["nodejs"]="JavaScript runtime built on Chrome's V8 JavaScript engine."
-            ["npm"]="Node Package Manager for managing JavaScript packages."
-            ["n"]="Node version manager for managing multiple versions of Node.js."
-        )
+        descriptions["n"]="Node version manager for managing multiple versions of Node.js."
         ;;
     macos)
-        descriptions=(
-            ["node"]="JavaScript runtime built on Chrome's V8 JavaScript engine."
-            ["npm"]="Node Package Manager for managing JavaScript packages."
-        )
+        descriptions["node"]="JavaScript runtime built on Chrome's V8 JavaScript engine."
         ;;
 esac
 
-# Check if each component is already installed without using sudo
+# Check if each component is already installed
 check_installed() {
     case "$OS" in
         manjaro|arch)
@@ -56,88 +49,78 @@ check_installed() {
 # Check and add missing components to the installation list
 for package in "${!descriptions[@]}"; do
     if check_installed "$package"; then
-        info "$package is already installed. Skipping installation."
+        echo "$package is already installed. Skipping installation."
     else
-        info "Preparing to install ${descriptions[$package]}"
+        echo "Preparing to install ${descriptions[$package]}"
         TO_INSTALL+=("$package")
     fi
 done
 
 # Exit if all packages are already installed
 if [[ ${#TO_INSTALL[@]} -eq 0 ]]; then
-    info "All Node.js components are already installed. Exiting."
+    echo "All Node.js components are already installed. Exiting."
     exit 0
 fi
 
-# Run sudo only if there are packages to install
-info "Components to install: ${TO_INSTALL[*]}"
+echo "Components to install: ${TO_INSTALL[*]}"
 
-# Step 2: Install missing components based on the detected OS
+# Install missing components
 case "$OS" in
     ubuntu|debian|raspbian|wsl)
-        info "Detected Debian-based system. Updating package database..."
+        echo "Detected Debian-based system. Updating package database..."
+        echo "$USER password might be required for sudo access."
         sudo apt-get update -y
-        for component in "${TO_INSTALL[@]}"; do
-            info "Installing $component (${descriptions[$component]}) on $OS..."
-            sudo apt-get install -y "$component"
-        done
+        sudo apt-get install -y "${TO_INSTALL[@]}"
         ;;
-
     manjaro|arch)
-        info "Detected Arch-based system. Checking and installing missing packages..."
+        echo "Detected Arch-based system. Checking and installing missing packages..."
+        echo "$USER password might be required for sudo access."
         pamac update --force-refresh
-        for component in "${TO_INSTALL[@]}"; do
-            if pamac search "$component" &> /dev/null; then
-                info "Installing $component (${descriptions[$component]}) on $OS..."
-                pamac install --no-confirm "$component"
-            else
-                warning "$component not found in official repositories. Trying AUR..."
-                if yay -Ss "$component" &> /dev/null; then
-                    info "Installing $component from AUR..."
-                    yay -S --noconfirm "$component"
-                else
-                    warning "$component not found in AUR either. Skipping."
-                fi
-            fi
-        done
+        pamac install --no-confirm "${TO_INSTALL[@]}"
         ;;
-
+    fedora|centos|redhat|opensuse)
+        echo "Detected RPM-based system. Updating package database..."
+        echo "$USER password might be required for sudo access."
+        sudo dnf update -y || sudo yum update -y
+        sudo dnf install -y "${TO_INSTALL[@]}" || sudo yum install -y "${TO_INSTALL[@]}"
+        ;;
     macos)
         if command -v brew &> /dev/null; then
-            info "Homebrew is installed. Updating..."
+            echo "Homebrew is installed. Updating..."
             brew update
-            for component in "${TO_INSTALL[@]}"; do
-                info "Installing $component (${descriptions[$component]}) on macOS..."
-                brew install "$component"
-            done
+            brew install "${TO_INSTALL[@]}"
         else
-            error "Homebrew is not installed. Please install Homebrew first: https://brew.sh/"
+            echo "Homebrew is not installed. Please install Homebrew first: https://brew.sh/"
             exit 1
         fi
         ;;
+    *)
+        echo "Unsupported OS: $OS"
+        exit 1
+        ;;
 esac
 
-# Step 3: Create node_modules directory if not exists and fix permissions
+# Create node_modules directory if not exists and fix permissions
 NODE_MODULES_DIR="/usr/local/lib/node_modules"
 if [ ! -d "$NODE_MODULES_DIR" ]; then
-    info "Creating node_modules directory at $NODE_MODULES_DIR..."
+    echo "Creating node_modules directory at $NODE_MODULES_DIR..."
     sudo mkdir -p "$NODE_MODULES_DIR"
 else
-    info "node_modules directory already exists at $NODE_MODULES_DIR."
+    echo "node_modules directory already exists at $NODE_MODULES_DIR."
 fi
 
-info "Changing ownership of $NODE_MODULES_DIR to $USER..."
+echo "Changing ownership of $NODE_MODULES_DIR to $USER..."
 sudo chown -R "$USER" "$NODE_MODULES_DIR"
 
-# Step 4: Verify installation
-info "Verifying Node.js and npm installation..."
+# Verify installation
+echo "Verifying Node.js and npm installation..."
 for component in "${TO_INSTALL[@]}"; do
     if check_installed "$component"; then
-        info "✅ $component installed successfully."
+        echo "✅ $component installed successfully."
     else
-        error "❌ $component installation failed. Please check for errors."
+        echo "❌ $component installation failed. Please check for errors."
         exit 1
     fi
 done
 
-info "Node.js and npm installation completed successfully on $OS."
+echo "Node.js and npm installation completed successfully on $OS."
