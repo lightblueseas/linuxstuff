@@ -1,90 +1,136 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# Pandoc and LaTeX Installation Script for Multiple OS
+# This script installs Pandoc, LaTeX, and wkhtmltopdf (as a fallback) based on the detected OS
 
 # Enable logging
 exec > >(tee -i install.log)
 exec 2>&1
 
+# Source the common initialization script
+source ./init_scripts.sh
+
+# Create an array for components to install
+TO_INSTALL=()
+
+# Descriptions for each package
+declare -A descriptions=(
+    ["pandoc"]="Universal document converter."
+    ["texlive"]="Comprehensive LaTeX distribution for creating PDF documents."
+    ["texlive-latex-extra"]="Additional LaTeX packages for advanced document formatting."
+    ["texlive-core"]="Core LaTeX packages for basic document creation."
+    ["texlive-bin"]="Essential binaries for running LaTeX."
+    ["texlive-fontsextra"]="Additional fonts for LaTeX documents."
+    ["mactex"]="Complete LaTeX distribution for macOS."
+    ["wkhtmltopdf"]="Alternative PDF engine using WebKit for HTML to PDF conversion."
+)
+
 # Function to check if a command exists
 command_exists() { type "$1" &> /dev/null; }
 
-# Function to detect package manager and install package
-install_package() {
-    local package="$1"
-
-    if command_exists apt; then
-        sudo apt update && sudo apt install -y "$package"
-    elif command_exists pacman; then
-        sudo pacman -Syu --noconfirm "$package"
-    elif command_exists dnf; then
-        sudo dnf install -y "$package"
-    elif [[ -f /etc/os-release ]] && grep -qi "opensuse" /etc/os-release; then
-        sudo zypper install -y "$package"
-    elif command_exists brew; then
-        brew install "$package"
+# Check if each component is already installed
+check_installed() {
+    if command_exists "$1"; then
+        info "$1 is already installed. Skipping installation."
+        return 0
     else
-        echo "Unsupported package manager. Please install $package manually."
-        exit 1
+        return 1
     fi
 }
 
-# Ensure the script is run with appropriate privileges
-if [[ $EUID -ne 0 ]]; then
-    echo "Warning: This script may require sudo privileges."
-    echo "If you encounter issues, try running it with: sudo $0"
-fi
-
-# Install Pandoc
-if command_exists pandoc; then
-    echo "Pandoc is already installed: $(pandoc --version | head -n 1)"
-else
-    echo "Pandoc is not installed. Attempting to install it..."
-    install_package pandoc
-fi
-
-# Verify Pandoc installation
-if command_exists pandoc; then
-    echo "Pandoc successfully installed: $(pandoc --version | head -n 1)"
-else
-    echo "Pandoc installation failed. Please try installing it manually."
-    exit 1
-fi
-
-# Install LaTeX (pdflatex)
-if command_exists pdflatex; then
-    echo "LaTeX is already installed: $(pdflatex --version | head -n 1)"
-else
-    echo "LaTeX is not installed. Attempting to install it..."
-
-    if command_exists apt; then
-        install_package "texlive texlive-latex-extra"
-    elif command_exists pacman; then
-        install_package "texlive-core texlive-bin texlive-latexextra texlive-fontsextra"
-    elif command_exists dnf; then
-        install_package "texlive"
-    elif [[ -f /etc/os-release ]] && grep -qi "opensuse" /etc/os-release; then
-        install_package "texlive"
-    elif command_exists brew; then
-        install_package "mactex"
+# Check and add missing components to the installation list
+for package in pandoc texlive texlive-latex-extra texlive-core texlive-bin texlive-fontsextra mactex wkhtmltopdf; do
+    if check_installed "$package"; then
+        continue
     else
-        echo "Unsupported OS for LaTeX installation. You may need to install it manually."
+        info "Preparing to install ${descriptions[$package]}"
+        TO_INSTALL+=("$package")
     fi
+done
+
+# Exit if all packages are already installed
+if [[ ${#TO_INSTALL[@]} -eq 0 ]]; then
+    info "All required components are already installed. Exiting."
+    exit 0
 fi
 
-# Verify LaTeX installation
-if command_exists pdflatex; then
-    echo "LaTeX successfully installed: $(pdflatex --version | head -n 1)"
-else
-    echo "LaTeX installation failed. Attempting to install wkhtmltopdf instead..."
+# Run sudo only if there are packages to install
+info "Components to install: ${TO_INSTALL[*]}"
 
-    # Install wkhtmltopdf as an alternative PDF engine
-    install_package "wkhtmltopdf"
+# Step 2: Install missing components based on the detected OS
+case "$OS" in
+    ubuntu|debian|raspbian|wsl)
+        info "Detected Debian-based system. Updating package database..."
+        sudo apt-get update -y
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component (${descriptions[$component]}) on $OS..."
+            sudo apt-get install -y "$component"
+        done
+        ;;
+    manjaro|arch)
+        info "Detected Arch-based system. Checking and installing missing packages..."
+        pamac update --force-refresh
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component (${descriptions[$component]}) on $OS..."
+            pamac install --no-confirm "$component"
+        done
+        ;;
+    fedora|centos|redhat)
+        info "Detected RPM-based system. Updating package database..."
+        sudo dnf update -y || sudo yum update -y
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component (${descriptions[$component]}) on $OS..."
+            sudo dnf install -y "$component" || sudo yum install -y "$component"
+        done
+        ;;
+    opensuse)
+        info "Detected openSUSE system. Updating package database..."
+        sudo zypper refresh
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component (${descriptions[$component]}) on openSUSE..."
+            sudo zypper install -y "$component"
+        done
+        ;;
+    macos)
+        if command -v brew &> /dev/null; then
+            info "Homebrew is installed. Updating..."
+            brew update
+            for component in "${TO_INSTALL[@]}"; do
+                info "Installing $component (${descriptions[$component]}) on macOS..."
+                brew install "$component"
+            done
+        else
+            error "Homebrew is not installed. Please install Homebrew first: https://brew.sh/"
+            exit 1
+        fi
+        ;;
+    linux)
+        if command -v snap &> /dev/null; then
+            info "Detected a generic Linux distribution. Attempting to install via snap..."
+            for component in "${TO_INSTALL[@]}"; do
+                info "Installing $component via snap (${descriptions[$component]})..."
+                sudo snap install "$component"
+            done
+        else
+            error "Snap is not installed. Please install Snap or use your package manager to install the components."
+            exit 1
+        fi
+        ;;
+    *)
+        error "Unsupported OS: $OS"
+        exit 1
+        ;;
+esac
 
-    # Check if wkhtmltopdf was installed successfully
-    if command_exists wkhtmltopdf; then
-        echo "wkhtmltopdf successfully installed: $(wkhtmltopdf --version)"
+# Step 3: Verify installation
+info "Verifying Pandoc, LaTeX, and wkhtmltopdf installation..."
+for component in "${TO_INSTALL[@]}"; do
+    if check_installed "$component"; then
+        info "✅ $component installed successfully."
     else
-        echo "PDF support installation failed. You may need to install pdflatex or wkhtmltopdf manually."
+        error "❌ $component installation failed. Please check for errors."
+        exit 1
     fi
-fi
+done
 
-echo "Installation complete!"
+info "Pandoc, LaTeX, and wkhtmltopdf installation completed successfully on $OS."
