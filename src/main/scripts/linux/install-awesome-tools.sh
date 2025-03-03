@@ -3,38 +3,36 @@
 # Utilities Installation Script for Multiple OS
 # This script installs Baobab, Shutter, KTouch, and Shotwell based on the detected OS
 
-# Colors for output
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[0m"
-
-# Function to print messages
-info() {
-    echo -e "${GREEN}[INFO]${RESET} $1"
-}
-
-warning() {
-    echo -e "${YELLOW}[WARNING]${RESET} $1"
-}
-
-error() {
-    echo -e "${RED}[ERROR]${RESET} $1"
-}
-
-# Path to detect_os.sh
+# Path to external scripts
+PRINT_MESSAGES_SCRIPT="./print_messages.sh"
+CHECK_PERMISSIONS_SCRIPT="./detect_script_permissions.sh"
 DETECT_OS_SCRIPT="./detect_os.sh"
 
-# Check if detect_os.sh is executable
-if [[ ! -x "$DETECT_OS_SCRIPT" ]]; then
-    warning "detect_os.sh is not executable. Attempting to fix permissions..."
-    chmod +x "$DETECT_OS_SCRIPT"
-    if [[ $? -ne 0 ]]; then
-        error "Failed to add execute permissions to detect_os.sh. Please run: chmod +x $DETECT_OS_SCRIPT"
+# Ensure external scripts exist and have execute permissions
+for SCRIPT in "$PRINT_MESSAGES_SCRIPT" "$CHECK_PERMISSIONS_SCRIPT" "$DETECT_OS_SCRIPT"; do
+    if [[ ! -f "$SCRIPT" ]]; then
+        echo "[ERROR] $SCRIPT not found. Please make sure it is in the same directory."
         exit 1
-    else
-        info "Permissions fixed for detect_os.sh."
+    elif [[ ! -x "$SCRIPT" ]]; then
+        echo "[WARNING] $SCRIPT is not executable. Attempting to fix permissions..."
+        chmod +x "$SCRIPT"
+        if [[ $? -ne 0 ]]; then
+            echo "[ERROR] Failed to add execute permissions to $SCRIPT. Please run: chmod +x $SCRIPT"
+            exit 1
+        else
+            echo "[INFO] Permissions fixed for $SCRIPT."
+        fi
     fi
+done
+
+# Source the print messages script
+source $PRINT_MESSAGES_SCRIPT
+
+# Run the permission check for detect_os.sh using detect_script_permissions.sh
+$CHECK_PERMISSIONS_SCRIPT "$DETECT_OS_SCRIPT"
+if [[ $? -ne 0 ]]; then
+    error "Failed to ensure execute permissions for $DETECT_OS_SCRIPT"
+    exit 1
 fi
 
 # Step 1: Detect OS using the external script
@@ -61,10 +59,20 @@ check_installed() {
 # Create an array for utilities to install
 to_install=()
 
-for utility in baobab shutter ktouch shotwell; do
+# Descriptions for each utility
+declare -A descriptions=(
+    ["baobab"]="Disk Usage Analyzer for visualizing disk usage."
+    ["shutter"]="Screenshot Tool for capturing and editing screenshots."
+    ["ktouch"]="Typing Tutor for learning touch typing."
+    ["shotwell"]="Photo Organizer for managing and editing photos."
+)
+
+# Check and add missing utilities to the installation list
+for utility in "${!descriptions[@]}"; do
     if check_installed $utility; then
         continue
     else
+        info "Preparing to install ${descriptions[$utility]}"
         to_install+=($utility)
     fi
 done
@@ -80,7 +88,7 @@ case "$OS" in
         info "Updating package database for $OS..."
         sudo apt-get update -y
         for utility in "${to_install[@]}"; do
-            info "Installing $utility..."
+            info "Installing $utility (${descriptions[$utility]})..."
             sudo apt-get install -y $utility
         done
         ;;
@@ -89,7 +97,7 @@ case "$OS" in
         info "Updating package database for $OS..."
         pamac update --force-refresh
         for utility in "${to_install[@]}"; do
-            info "Installing $utility..."
+            info "Installing $utility (${descriptions[$utility]})..."
             pamac install --no-confirm $utility
         done
         ;;
@@ -98,7 +106,7 @@ case "$OS" in
         info "Updating package database for $OS..."
         sudo dnf update -y
         for utility in "${to_install[@]}"; do
-            info "Installing $utility..."
+            info "Installing $utility (${descriptions[$utility]})..."
             sudo dnf install -y $utility
         done
         ;;
@@ -108,7 +116,7 @@ case "$OS" in
         sudo yum update -y
         sudo yum install -y epel-release
         for utility in "${to_install[@]}"; do
-            info "Installing $utility..."
+            info "Installing $utility (${descriptions[$utility]})..."
             sudo yum install -y $utility
         done
         ;;
@@ -117,7 +125,7 @@ case "$OS" in
         info "Updating package database for $OS..."
         sudo zypper refresh
         for utility in "${to_install[@]}"; do
-            info "Installing $utility..."
+            info "Installing $utility (${descriptions[$utility]})..."
             sudo zypper install -y $utility
         done
         ;;
@@ -126,7 +134,7 @@ case "$OS" in
         info "Updating package database for $OS..."
         sudo apk update
         for utility in "${to_install[@]}"; do
-            info "Installing $utility..."
+            info "Installing $utility (${descriptions[$utility]})..."
             sudo apk add $utility
         done
         ;;
@@ -136,7 +144,7 @@ case "$OS" in
             info "Homebrew is installed. Updating..."
             brew update
             for utility in "${to_install[@]}"; do
-                info "Installing $utility..."
+                info "Installing $utility (${descriptions[$utility]})..."
                 brew install $utility
             done
         else
@@ -149,7 +157,7 @@ case "$OS" in
         info "Detected a generic Linux distribution. Attempting to install via snap..."
         if command -v snap &> /dev/null; then
             for utility in "${to_install[@]}"; do
-                info "Installing $utility via snap..."
+                info "Installing $utility via snap (${descriptions[$utility]})..."
                 sudo snap install $utility
             done
         else
