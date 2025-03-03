@@ -3,35 +3,8 @@
 # GIMP Installation Script for Multiple OS
 # This script installs GIMP and related plugins based on the detected OS
 
-# Colors for output
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[0m"
-
-# Function to print messages
-info() {
-    echo -e "${GREEN}[INFO]${RESET} $1"
-}
-
-warning() {
-    echo -e "${YELLOW}[WARNING]${RESET} $1"
-}
-
-error() {
-    echo -e "${RED}[ERROR]${RESET} $1"
-}
-
-# Step 1: Detect OS using the external script
-OS=$(./detect_os.sh)
-
-# Check if the OS detection script ran successfully
-if [[ -z "$OS" || "$OS" == "unknown" ]]; then
-    error "Could not detect the OS or unsupported OS detected."
-    exit 1
-fi
-
-info "Detected OS: $OS"
+# Source the common initialization script
+source ./init_scripts.sh
 
 # Check if GIMP is already installed
 if command -v gimp &> /dev/null; then
