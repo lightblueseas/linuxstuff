@@ -3,35 +3,32 @@
 # ClamAV Installation Script for Multiple OS
 # This script installs ClamAV based on the detected OS
 
-# Source the print messages script
+# Path to external scripts
 PRINT_MESSAGES_SCRIPT="./print_messages.sh"
 CHECK_PERMISSIONS_SCRIPT="./detect_script_permissions.sh"
-
-# Check if detect_script_permissions.sh exists and is executable
-if [[ ! -x "$CHECK_PERMISSIONS_SCRIPT" ]]; then
-    error "Permission check script not found or not executable: $CHECK_PERMISSIONS_SCRIPT"
-    exit 1
-fi
-
-# Check if print_messages.sh is executable
-if [[ ! -x "$PRINT_MESSAGES_SCRIPT" ]]; then
-    echo "[WARNING] print_messages.sh is not executable. Attempting to fix permissions..."
-    chmod +x "$PRINT_MESSAGES_SCRIPT"
-    if [[ $? -ne 0 ]]; then
-        echo "[ERROR] Failed to add execute permissions to print_messages.sh. Please run: chmod +x $PRINT_MESSAGES_SCRIPT"
-        exit 1
-    else
-        echo "[INFO] Permissions fixed for print_messages.sh."
-    fi
-fi
-
-# Source the print_messages.sh to use the functions
-source $PRINT_MESSAGES_SCRIPT
-
-# Path to detect_os.sh and detect_script_permissions.sh
 DETECT_OS_SCRIPT="./detect_os.sh"
 
-# Run the permission check for detect_os.sh
+# Ensure external scripts exist and have execute permissions
+for SCRIPT in "$PRINT_MESSAGES_SCRIPT" "$CHECK_PERMISSIONS_SCRIPT" "$DETECT_OS_SCRIPT"; do
+    if [[ ! -f "$SCRIPT" ]]; then
+        echo "[ERROR] $SCRIPT not found. Please make sure it is in the same directory."
+        exit 1
+    elif [[ ! -x "$SCRIPT" ]]; then
+        echo "[WARNING] $SCRIPT is not executable. Attempting to fix permissions..."
+        chmod +x "$SCRIPT"
+        if [[ $? -ne 0 ]]; then
+            echo "[ERROR] Failed to add execute permissions to $SCRIPT. Please run: chmod +x $SCRIPT"
+            exit 1
+        else
+            echo "[INFO] Permissions fixed for $SCRIPT."
+        fi
+    fi
+done
+
+# Source the print messages script
+source $PRINT_MESSAGES_SCRIPT
+
+# Run the permission check for detect_os.sh using detect_script_permissions.sh
 $CHECK_PERMISSIONS_SCRIPT "$DETECT_OS_SCRIPT"
 if [[ $? -ne 0 ]]; then
     error "Failed to ensure execute permissions for $DETECT_OS_SCRIPT"
