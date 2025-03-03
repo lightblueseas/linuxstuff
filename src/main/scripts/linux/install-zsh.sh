@@ -26,15 +26,8 @@ if [[ "$ID" == "manjaro" ]]; then
     # Install Zsh
     sudo pacman -S zsh --noconfirm
 
-elif [[ "$ID" == "ubuntu" || "$ID_LIKE" == *"debian"* ]]; then
-    echo "Installing Zsh on Ubuntu/Debian..."
-    # Update package database
-    sudo apt-get update -y
-    # Install Zsh
-    sudo apt-get install zsh -y
-
-elif [[ "$ID" == "raspbian" || ( "$ID" == "debian" && "$(uname -m)" == *"arm"* ) ]]; then
-    echo "Installing Zsh on Raspberry Pi OS..."
+elif [[ "$ID" == "ubuntu" || "$ID_LIKE" == *"debian"* || "$ID" == "debian" ]]; then
+    echo "Installing Zsh on Ubuntu/Debian/Raspberry Pi OS..."
     # Update package database
     sudo apt-get update -y
     # Install Zsh
