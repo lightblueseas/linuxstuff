@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Node.js and npm Installation Script for Multiple OS
-# This script installs Node.js, npm, and sets up necessary permissions for global npm packages
+# Nautilus and Extensions Installation Script for Multiple OS
+# This script installs Nautilus and various Nautilus extensions based on the detected OS
 
 # Source the common initialization script
 source ./init_scripts.sh
@@ -11,23 +11,37 @@ TO_INSTALL=()
 
 # Descriptions for each package (default for Ubuntu/Debian)
 declare -A descriptions=(
-    ["nodejs"]="JavaScript runtime built on Chrome's V8 JavaScript engine."
-    ["npm"]="Node Package Manager for managing JavaScript packages."
+    ["nautilus"]="Nautilus file manager."
+    ["nautilus-admin"]="Adds administrative actions to Nautilus context menu."
+    ["nautilus-sendto"]="Enables sending files directly from Nautilus."
+    ["nautilus-image-converter"]="Adds image resizing and rotation options in Nautilus context menu."
+    ["nautilus-compare"]="Adds file comparison options in Nautilus context menu."
+    ["nautilus-wipe"]="Adds secure delete options in Nautilus."
+    ["seahorse-nautilus"]="Encryption and decryption integration for Nautilus."
+    ["nautilus-gtkhash"]="Checksums and hash generation for files in Nautilus."
+    ["nautilus-share"]="Enables file sharing in Nautilus."
+    ["nautilus-script-manager"]="Manages custom scripts in Nautilus."
+    ["ffmpegthumbnailer"]="Generates video thumbnails for Nautilus."
+    ["nautilus-actions"]="Custom actions for files in Nautilus."
+    ["nautilus-gksu"]="Open files as administrator in Nautilus."
+    ["nautilus-actions-extra"]="Extra custom actions for Nautilus."
 )
 
 # Adjust package names based on the OS
 case "$OS" in
     manjaro|arch)
         descriptions=(
-            ["nodejs"]="JavaScript runtime built on Chrome's V8 JavaScript engine."
-            ["npm"]="Node Package Manager for managing JavaScript packages."
-            ["n"]="Node version manager for managing multiple versions of Node.js."
-        )
-        ;;
-    macos)
-        descriptions=(
-            ["node"]="JavaScript runtime built on Chrome's V8 JavaScript engine."
-            ["npm"]="Node Package Manager for managing JavaScript packages."
+            ["nautilus"]="Nautilus file manager."
+            ["nautilus-admin"]="Adds administrative actions to Nautilus context menu."
+            ["nautilus-sendto"]="Enables sending files directly from Nautilus."
+            ["nautilus-image-converter"]="Adds image resizing and rotation options in Nautilus context menu."
+            ["nautilus-compare"]="Adds file comparison options in Nautilus context menu."
+            ["nautilus-wipe"]="Adds secure delete options in Nautilus."
+            ["seahorse-nautilus"]="Encryption and decryption integration for Nautilus."
+            ["nautilus-gtkhash"]="Checksums and hash generation for files in Nautilus."
+            ["nautilus-share"]="Enables file sharing in Nautilus."
+            ["nautilus-script-manager"]="Manages custom scripts in Nautilus."
+            ["ffmpegthumbnailer"]="Generates video thumbnails for Nautilus."
         )
         ;;
 esac
@@ -65,7 +79,7 @@ done
 
 # Exit if all packages are already installed
 if [[ ${#TO_INSTALL[@]} -eq 0 ]]; then
-    info "All Node.js components are already installed. Exiting."
+    info "All Nautilus components are already installed. Exiting."
     exit 0
 fi
 
@@ -102,6 +116,24 @@ case "$OS" in
         done
         ;;
 
+    fedora|centos|redhat)
+        info "Detected RPM-based system. Updating package database..."
+        sudo dnf update -y || sudo yum update -y
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component (${descriptions[$component]}) on $OS..."
+            sudo dnf install -y "$component" || sudo yum install -y "$component"
+        done
+        ;;
+
+    opensuse)
+        info "Detected openSUSE system. Updating package database..."
+        sudo zypper refresh
+        for component in "${TO_INSTALL[@]}"; do
+            info "Installing $component (${descriptions[$component]}) on openSUSE..."
+            sudo zypper install -y "$component"
+        done
+        ;;
+
     macos)
         if command -v brew &> /dev/null; then
             info "Homebrew is installed. Updating..."
@@ -117,20 +149,8 @@ case "$OS" in
         ;;
 esac
 
-# Step 3: Create node_modules directory if not exists and fix permissions
-NODE_MODULES_DIR="/usr/local/lib/node_modules"
-if [ ! -d "$NODE_MODULES_DIR" ]; then
-    info "Creating node_modules directory at $NODE_MODULES_DIR..."
-    sudo mkdir -p "$NODE_MODULES_DIR"
-else
-    info "node_modules directory already exists at $NODE_MODULES_DIR."
-fi
-
-info "Changing ownership of $NODE_MODULES_DIR to $USER..."
-sudo chown -R "$USER" "$NODE_MODULES_DIR"
-
-# Step 4: Verify installation
-info "Verifying Node.js and npm installation..."
+# Step 3: Verify installation
+info "Verifying Nautilus and its extensions installation..."
 for component in "${TO_INSTALL[@]}"; do
     if check_installed "$component"; then
         info "✅ $component installed successfully."
@@ -140,4 +160,4 @@ for component in "${TO_INSTALL[@]}"; do
     fi
 done
 
-info "Node.js and npm installation completed successfully on $OS."
+info "Nautilus and extensions installation completed successfully on $OS."
