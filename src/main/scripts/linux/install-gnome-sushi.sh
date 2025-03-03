@@ -3,35 +3,8 @@
 # GNOME Sushi Installation Script for Multiple OS
 # This script installs GNOME Sushi for quick file previews in Nautilus based on the detected OS
 
-# Colors for output
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[0m"
-
-# Function to print messages
-info() {
-    echo -e "${GREEN}[INFO]${RESET} $1"
-}
-
-warning() {
-    echo -e "${YELLOW}[WARNING]${RESET} $1"
-}
-
-error() {
-    echo -e "${RED}[ERROR]${RESET} $1"
-}
-
-# Step 1: Detect OS using the external script
-OS=$(./detect_os.sh)
-
-# Check if the OS detection script ran successfully
-if [[ -z "$OS" || "$OS" == "unknown" ]]; then
-    error "Could not detect the OS or unsupported OS detected."
-    exit 1
-fi
-
-info "Detected OS: $OS"
+# Source the common initialization script
+source ./init_scripts.sh
 
 # Check if GNOME Sushi is already installed
 if command -v gnome-sushi &> /dev/null; then
@@ -50,11 +23,27 @@ install_sushi() {
             ;;
 
         manjaro|arch)
-            info "Updating package database for $OS..."
-            pamac update --force-refresh
+            info "Detected Arch-based system. Checking if gnome-sushi is available in official repositories..."
 
-            info "Installing GNOME Sushi (Quick file preview extension for Nautilus)..."
-            pamac install --no-confirm gnome-sushi
+            # Use pacman to check if gnome-sushi exists to avoid password prompts
+            if pacman -Ss gnome-sushi | grep -q "gnome-sushi"; then
+                info "gnome-sushi found in official repositories. Preparing to install..."
+                pamac update --force-refresh
+
+                info "Installing GNOME Sushi from official repositories..."
+                pamac install --no-confirm gnome-sushi
+            else
+                warning "gnome-sushi not found in official repositories. Trying AUR..."
+
+                # Check AUR without sudo to avoid password prompt
+                if yay -Ss gnome-sushi | grep -q "gnome-sushi"; then
+                    info "gnome-sushi found in AUR. Preparing to install..."
+                    yay -S --noconfirm gnome-sushi
+                else
+                    warning "gnome-sushi not found in AUR either. Skipping installation."
+                    exit 0
+                fi
+            fi
             ;;
 
         fedora)
