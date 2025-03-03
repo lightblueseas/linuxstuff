@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# GIMP Installation Script for Multiple OS
+# This script installs GIMP and related plugins based on the detected OS
+
 # Colors for output
 GREEN="\e[32m"
 YELLOW="\e[33m"
@@ -19,39 +22,42 @@ error() {
     echo -e "${RED}[ERROR]${RESET} $1"
 }
 
-# Detect the package manager
-if command -v apt &> /dev/null; then
-    PM="apt"
-    OS="Ubuntu/Debian"
-elif command -v pacman &> /dev/null; then
-    PM="pacman"
-    OS="Manjaro/Arch"
-else
-    error "Unsupported OS. This script supports Ubuntu/Debian and Manjaro/Arch."
+# Step 1: Detect OS using the external script
+OS=$(./detect_os.sh)
+
+# Check if the OS detection script ran successfully
+if [[ -z "$OS" || "$OS" == "unknown" ]]; then
+    error "Could not detect the OS or unsupported OS detected."
     exit 1
 fi
 
 info "Detected OS: $OS"
-info "Updating package list..."
-
-# Update package list based on the package manager
-if [[ "$PM" == "apt" ]]; then
-    sudo apt update -y
-elif [[ "$PM" == "pacman" ]]; then
-    sudo pacman -Sy --noconfirm
-fi
 
 # Check if GIMP is already installed
 if command -v gimp &> /dev/null; then
-    info "GIMP is already installed. Skipping installation."
-else
-    info "Installing GIMP and additional plugins..."
+    info "GIMP is already installed: $(gimp --version)"
+    exit 0
+fi
 
-    if [[ "$PM" == "apt" ]]; then
-        sudo apt install -y \
-            gimp \
-            gimp-help-de \
-            language-pack-gnome-de \
+info "GIMP is not installed. Attempting to install it..."
+
+# Step 2: Install GIMP based on the detected OS
+case "$OS" in
+    ubuntu|debian|raspbian|wsl)
+        info "Updating package database for $OS..."
+        sudo apt-get update -y
+
+        info "Installing GIMP (Image Manipulation Program)..."
+        sudo apt-get install -y gimp
+
+        info "Installing GIMP Help (German)..."
+        sudo apt-get install -y gimp-help-de
+
+        info "Installing GNOME language pack (German)..."
+        sudo apt-get install -y language-pack-gnome-de
+
+        info "Installing GIMP Plugins (dcraw, ufraw, gap, gutenprint, registry, resynthesizer, python support, G'MIC)..."
+        sudo apt-get install -y \
             gimp-dcraw \
             gimp-ufraw \
             gimp-gap \
@@ -60,13 +66,92 @@ else
             gimp-resynthesizer \
             gimp-python \
             gmic
-    elif [[ "$PM" == "pacman" ]]; then
-        sudo pacman -S --noconfirm \
-            gimp \
-            gimp-help-de \
-            gimp-plugin-gmic \
-            gutenprint
-    fi
+        ;;
+
+    manjaro|arch)
+        info "Updating package database for $OS..."
+        pamac update --force-refresh
+
+        info "Installing GIMP (Image Manipulation Program)..."
+        pamac install --no-confirm gimp
+
+        info "Installing GIMP Help (German)..."
+        pamac install --no-confirm gimp-help-de
+
+        info "Installing G'MIC Plugin for GIMP..."
+        pamac install --no-confirm gimp-plugin-gmic
+
+        info "Installing Gutenprint (Printer drivers for GIMP)..."
+        pamac install --no-confirm gutenprint
+        ;;
+
+    fedora)
+        info "Updating package database for Fedora..."
+        sudo dnf update -y
+
+        info "Installing GIMP and plugins..."
+        sudo dnf install -y gimp gimp-help gmic gutenprint
+        ;;
+
+    centos|redhat)
+        info "Detected CentOS/Red Hat system."
+        sudo yum update -y
+        sudo yum install -y epel-release
+
+        info "Installing GIMP and plugins..."
+        sudo yum install -y gimp gimp-help gmic gutenprint
+        ;;
+
+    opensuse)
+        info "Detected openSUSE system."
+        sudo zypper refresh
+
+        info "Installing GIMP and plugins..."
+        sudo zypper install -y gimp gimp-help gmic gutenprint
+        ;;
+
+    alpine)
+        info "Detected Alpine Linux."
+        sudo apk update
+
+        info "Installing GIMP (without plugins due to limited support on Alpine)..."
+        sudo apk add gimp
+        ;;
+
+    macos)
+        if command -v brew &> /dev/null; then
+            info "Using Homebrew to install GIMP..."
+            brew install --cask gimp
+        else
+            error "Homebrew is not installed. Please install Homebrew first: https://brew.sh/"
+            exit 1
+        fi
+        ;;
+
+    linux)
+        info "Detected a generic Linux distribution. Attempting to install via snap..."
+        if command -v snap &> /dev/null; then
+            info "Installing GIMP via snap..."
+            sudo snap install gimp
+        else
+            error "Snap is not installed. Please install Snap or use your package manager to install GIMP."
+            exit 1
+        fi
+        ;;
+
+    *)
+        error "Unsupported OS: $OS"
+        exit 1
+        ;;
+esac
+
+# Step 3: Verify installation
+info "Verifying GIMP installation..."
+if command -v gimp &> /dev/null; then
+    info "✅ GIMP successfully installed: $(gimp --version)"
+else
+    error "❌ GIMP installation failed. Please try installing it manually."
+    exit 1
 fi
 
-info "GIMP installation complete!"
+info "GIMP installation completed successfully on $OS."
