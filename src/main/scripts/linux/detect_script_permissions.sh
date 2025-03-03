@@ -2,11 +2,14 @@
 
 # Script to check if a given script is executable and fix permissions if necessary
 
-# Source the print messages script
+# Path to print_messages.sh
 PRINT_MESSAGES_SCRIPT="./print_messages.sh"
 
-# Check if print_messages.sh is executable
-if [[ ! -x "$PRINT_MESSAGES_SCRIPT" ]]; then
+# Check if print_messages.sh exists and is executable
+if [[ ! -f "$PRINT_MESSAGES_SCRIPT" ]]; then
+    echo "[ERROR] print_messages.sh not found. Please make sure it is in the same directory."
+    exit 1
+elif [[ ! -x "$PRINT_MESSAGES_SCRIPT" ]]; then
     echo "[WARNING] print_messages.sh is not executable. Attempting to fix permissions..."
     chmod +x "$PRINT_MESSAGES_SCRIPT"
     if [[ $? -ne 0 ]]; then
