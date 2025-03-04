@@ -1,0 +1,21 @@
+// Define properties early in the configuration phase
+def inceptionYear = project.findProperty("projectInceptionYear") ?: "2025"
+def ownerName = project.findProperty("projectLeaderName") ?: "Asterios Raptis"
+
+// Store in extra properties for global availability
+project.ext.set("inceptionYear", inceptionYear)
+project.ext.set("ownerName", ownerName)
+
+// Load the exclusion patterns from the file
+def exclusionFile = file('gradle/list/exclude-license-files.list')
+def exclusionPatterns = exclusionFile.exists() ? exclusionFile.readLines().findAll { it.trim() } : []
+
+license {
+    // Use the pre-defined properties (avoiding execution-time calls to project)
+    ext.year = inceptionYear
+    ext.owner = ownerName
+
+    setIgnoreFailures(true)
+    setHeader(rootProject.file("src/main/resources/LICENSE.txt"))
+    excludes(exclusionPatterns)
+}

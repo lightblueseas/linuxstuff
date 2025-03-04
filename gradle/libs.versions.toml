@@ -1,0 +1,92 @@
+[versions]
+assertj-core-version = "3.27.3"
+commons-text-version = "1.13.0"
+equalsverifier-version = "3.19.1"
+file-worker-version = "19.0"
+gradle-migration-data-version = "3.0"
+gradle-plugin-grgit-version = "5.3.0"
+gradle-plugin-license-version = "0.16.1"
+gradle-plugin-lombok-version = "8.12.1"
+gradle-plugin-spotless-version = "7.0.2"
+gradle-plugin-version-catalog-update-version = "0.8.5"
+gradle-plugin-versions-version = "0.52.0"
+jobj-core-version = "9.1"
+junit-jupiter-params-version = "5.12.0"
+junit-jupiter-version = "5.12.0"
+lombok-version = "1.18.36"
+meanbean-version = "3.0.0-M9"
+mockito-core-version = "5.15.2"
+silly-collection-version = "28.1"
+silly-io-version = "3.6"
+test-object-version = "9"
+throwable-version = "3"
+
+[libraries]
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj-core-version" }
+commons-text = { module = "org.apache.commons:commons-text", version.ref = "commons-text-version" }
+equalsverifier = { module = "nl.jqno.equalsverifier:equalsverifier", version.ref = "equalsverifier-version" }
+file-worker = { module = "io.github.astrapi69:file-worker", version.ref = "file-worker-version" }
+gradle-migration-data = { module = "io.github.astrapi69:gradle-migration-data", version.ref = "gradle-migration-data-version" }
+jobj-core = { module = "io.github.astrapi69:jobj-core", version.ref = "jobj-core-version" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter-version" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-jupiter-params-version" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok-version" }
+meanbean = { module = "com.github.meanbeanlib:meanbean", version.ref = "meanbean-version" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core-version" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito-core-version" }
+silly-collection = { module = "io.github.astrapi69:silly-collection", version.ref = "silly-collection-version" }
+silly-io = { module = "io.github.astrapi69:silly-io", version.ref = "silly-io-version" }
+test-object = { module = "io.github.astrapi69:test-object", version.ref = "test-object-version" }
+throwable = { module = "io.github.astrapi69:throwable", version.ref = "throwable-version" }
+
+[bundles]
+# Dependencies for the annotation processor used during the compilation process
+annotation-processor = [
+    "lombok",
+]
+# Dependencies required only at compile-time and not included in the final artifact
+compile-only = [
+    "lombok",
+]
+# The core dependencies
+core-dependencies = [
+    "jobj-core",
+]
+# Annotation processor dependencies used specifically for test classes
+test-annotation-processor = [
+    "lombok",
+]
+# Dependencies required only at test compile-time and not included in test runtime
+test-compile-only = [
+    "lombok",
+]
+# Dependencies required only at test runtime, such as test execution platforms
+test-runtime-only = [
+    "junit-platform-launcher",
+]
+# Dependencies required for unit testing
+unit-testing = [
+    "assertj-core",
+    "commons-text",
+    "equalsverifier",
+    "file-worker",
+    "gradle-migration-data",
+    "junit-jupiter",
+    "junit-jupiter-params",
+    "meanbean",
+    "mockito-core",
+    "mockito-junit-jupiter",
+    "silly-collection",
+    "silly-io",
+    "test-object",
+    "throwable",
+]
+
+[plugins]
+gradle-versions-plugin = { id = "com.github.ben-manes.versions", version.ref = "gradle-plugin-versions-version" }
+grgit-gradle = { id = "org.ajoberstar.grgit", version.ref = "gradle-plugin-grgit-version" }
+license-gradle-plugin = { id = "com.github.hierynomus.license", version.ref = "gradle-plugin-license-version" }
+lombok-plugin = { id = "io.freefair.lombok", version.ref = "gradle-plugin-lombok-version" }
+spotless-plugin-gradle = { id = "com.diffplug.spotless", version.ref = "gradle-plugin-spotless-version" }
+version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "gradle-plugin-version-catalog-update-version" }

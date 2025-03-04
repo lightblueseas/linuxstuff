@@ -1,0 +1,17 @@
+test {
+    mustRunAfter(jar)
+    useJUnitPlatform()
+}
+
+tasks.named("test") {
+    it.mustRunAfter(tasks.named("jar"))
+}
+
+jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+}
+
+check.dependsOn jacocoTestReport

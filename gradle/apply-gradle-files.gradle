@@ -1,0 +1,11 @@
+// import gradle files
+// Read the list of Gradle files from a file
+def gradleFiles = file('gradle/list/gradle-files.list').readLines()
+def excludeGradleFiles = file('gradle/list/exclude-gradle-files.list').readLines()
+
+// Apply only non-excluded Gradle files
+gradleFiles.each { gradleFile ->
+    if (!excludeGradleFiles.contains(gradleFile)) {
+        apply from: gradleFile
+    }
+}

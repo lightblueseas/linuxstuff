@@ -6,9 +6,12 @@
 ##################
 # intellij files #
 ##################
+*.iws
 *.iml
-.idea
-*/.idea
+*.ipr
+!.idea/runConfigurations
+.idea/**
+.idea/*.*
 
 #################
 # eclipse files #
@@ -18,21 +21,44 @@
 /.settings
 /.tern-project
 
+###########
+### STS ###
+###########
+.apt_generated
+.factorypath
+.springBeans
+.sts4-cache
+
+
+################
+### NetBeans ###
+################
+/nbproject/private/
+/nbbuild/
+/nbdist/
+/.nb-gradle/
+/build/
+
 #########################
 # maven generated files #
 #########################
 /target
+/.mvn/
+*.versionsBackup
 
 #############
 # Zip files #
 #############
 *.tar
+*.tar.gz
 *.zip
 *.7z
 *.dmg
 *.gz
 *.iso
 *.jar
+*.war
+*.ear
 *.rar
 
 ##############
@@ -56,4 +82,21 @@
 /build
 /.gradle
 /gradle
-/.pydevproject
+/out
+# Ignore Gradle GUI config
+gradle-app.setting
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!/gradle/wrapper/gradle-wrapper.jar
+!/gradle/wrapper/gradle-wrapper.properties
+# Cache of project
+.gradletasknamecache
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+##############################################################
+# virtual machine crash logs                                 #
+# see http://www.java.com/en/download/help/error_hotspot.xml #
+##############################################################
+hs_err_pid*
+/.attach_pid*
+/lombok.config

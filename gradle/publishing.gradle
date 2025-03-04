@@ -1,0 +1,83 @@
+def snapshotVersion = version.endsWith("SNAPSHOT")
+def releaseVersion = !snapshotVersion
+
+task sourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.allJava)
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier.set("javadoc")
+    javadoc {
+        failOnError = false
+    }
+}
+
+javadoc {
+    failOnError = false
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption("html5", true)
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = "$rootProject.name"
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                name = "$rootProject.name"
+                description = "$projectDescription"
+                url = "$projectScmProviderUrl" + "$projectHolderUsername" + "$slash" + "$rootProject.name"
+                organization {
+                    name = "$projectOrganizationName"
+                    url = "$projectOrganizationUrl"
+                }
+                issueManagement {
+                    system = "$projectIssueManagementSystem"
+                    url = "$projectScmProviderUrl" + "$projectHolderUsername" + "$slash" + "$rootProject.name" + "$issuesPath"
+                }
+                licenses {
+                    license {
+                        name = "$projectLicenseName"
+                        url = "$projectLicenseUrl"
+                        distribution = "$projectLicenseDistribution"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "$projectHolderUsername"
+                        name = "$projectLeaderName"
+                    }
+                }
+                scm {
+                    connection = "$projectScmGitUrlPrefix" + "$projectScmProviderDomain" + "$colon" + "$projectHolderUsername" + "$slash" + "$rootProject.name" + "$projectScmGitUrlSuffix"
+                    developerConnection = "$projectScmGitUrlPrefix" + "$projectScmProviderDomain" + "$colon" + "$projectHolderUsername" + "$slash" + "$rootProject.name" + "$projectScmGitUrlSuffix"
+                    url = "$projectScmGitUrlPrefix" + "$projectScmProviderDomain" + "$colon" + "$projectHolderUsername" + "$slash" + "$rootProject.name" + "$projectScmGitUrlSuffix"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            if (releaseVersion) {
+                credentials {
+                    setUsername(System.getenv("$projectRepositoriesUserNameKey") ?: project.property("$projectRepositoriesUserNameKey") as String)
+                    setPassword(System.getenv("$projectRepositoriesPasswordKey") ?: project.property("$projectRepositoriesPasswordKey") as String)
+                }
+            }
+            def releasesRepoUrl = "$projectRepositoriesReleasesRepoUrl" as Object
+            def snapshotsRepoUrl = "$projectRepositoriesSnapshotsRepoUrl" as Object
+            setUrl(releaseVersion ? releasesRepoUrl : snapshotsRepoUrl)
+        }
+    }
+}
+
+signing {
+    if (releaseVersion) {
+        sign publishing.publications.mavenJava
+    }
+}
