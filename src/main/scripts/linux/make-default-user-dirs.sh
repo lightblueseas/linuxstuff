@@ -27,14 +27,17 @@ directories=(
     "$HOME/dev/ide/idea"
 )
 
-# Create directories if they do not exist
+# Create directories if they do not exist, with error handling
 for dir in "${directories[@]}"; do
     if [ ! -d "$dir" ]; then
-        mkdir -p "$dir"
-        echo "Created: $dir"
+        if mkdir -p "$dir"; then
+            echo "Created: $dir"
+        else
+            echo "Failed to create: $dir" >&2
+        fi
     else
         echo "Already exists: $dir"
     fi
 done
 
-echo "All directories have been created successfully."
+echo "All directories have been processed successfully."
