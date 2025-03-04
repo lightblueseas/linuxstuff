@@ -4,7 +4,7 @@
 Version 1.4-SNAPSHOT
 -------------
 
-ADDED: 
+ADDED:
 
 - new CHANGELOG.md file created
 - new shell script created that helps in the gradle migration
