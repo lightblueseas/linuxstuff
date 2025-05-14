@@ -10,14 +10,14 @@ manage your Linux environments (e.g., Ubuntu, Debian, Raspbian, Manjaro, Arch, W
 | File / Script            | Description                                     |
 |--------------------------|-------------------------------------------------|
 | `.aliasesrc`             | Collection of useful shell aliases              |
-| `.shell-aliases`         | Erweiterte Aliase für gängige CLI-Kommandos     |
+| `.shell-aliases`         | Extended command-line aliases                   |
 | `.profile`               | General profile loaded by your shell            |
 | `.aptrc`                 | Aliases and functions for Debian/Ubuntu (apt)   |
 | `.mvnrc`, `.npmrc`, etc. | Tool-specific configurations                    |
 | `gen-profile.sh`         | Builds the main profile from modular components |
 | `gen-cygwin-profile.sh`  | Profile generation script tailored for Cygwin   |
 | `.tweak.sh`              | Optional shell tweaks for cleaning the system   |
-| `.zipping`               | Script for packaging the environment            |
+| `.zipping`               | Script for packaging and encrypted compression  |
 | `LICENSE.txt`            | License information                             |
 | `README.md`              | This documentation                              |
 
@@ -27,7 +27,7 @@ manage your Linux environments (e.g., Ubuntu, Debian, Raspbian, Manjaro, Arch, W
 
 ### 🛠️ 1. Generate the Profile
 
-Use the script to automatically generate a `.profile` (for Bash) or `.zshrc` (for Zsh):
+Run this script to generate a complete `.bashrc` or `.zshrc` by concatenating the components:
 
 ```bash
 bash gen-profile.sh
