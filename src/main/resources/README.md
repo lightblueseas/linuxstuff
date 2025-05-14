@@ -1,22 +1,105 @@
-## .zipping
+# 💻 Linux System Profile & Maintenance Scripts
 
-For zip a folder or a file you can use the alias functions for zipping. If not done you have to import the aliases from the .zipping file to your .profile.
+This repository contains a collection of Bash configuration files, aliases, and maintenance scripts to standardize and
+manage your Linux environments (e.g., Ubuntu, Debian, Raspbian, Manjaro, Arch, WSL, Cygwin).
 
+---
 
-Here an example how to zip and unzip with encryption:
+## 📦 Contents
 
-Lets say you have a folder '/home/johndoe/docs' and you want to zip and encrypt it. Change from the shell to the home folder of the user johndoe '/home/johndoe' and execute the following command:
+| File / Script            | Description                                     |
+|--------------------------|-------------------------------------------------|
+| `.aliasesrc`             | Collection of useful shell aliases              |
+| `.shell-aliases`         | Erweiterte Aliase für gängige CLI-Kommandos     |
+| `.profile`               | General profile loaded by your shell            |
+| `.aptrc`                 | Aliases and functions for Debian/Ubuntu (apt)   |
+| `.mvnrc`, `.npmrc`, etc. | Tool-specific configurations                    |
+| `gen-profile.sh`         | Builds the main profile from modular components |
+| `gen-cygwin-profile.sh`  | Profile generation script tailored for Cygwin   |
+| `.tweak.sh`              | Optional shell tweaks for cleaning the system   |
+| `.zipping`               | Script for packaging the environment            |
+| `LICENSE.txt`            | License information                             |
+| `README.md`              | This documentation                              |
 
-```shell
-:~$  zipAndEncrypt docs/ docs.enc
+---
+
+## ⚙️ Usage
+
+### 🛠️ 1. Generate the Profile
+
+Use the script to automatically generate a `.profile` (for Bash) or `.zshrc` (for Zsh):
+
+```bash
+bash gen-profile.sh
 ```
 
-You will be prompted twice to enter a password for the encryption. If everything goes right the output will be the zip-file 'docs.enc'.
+For Cygwin users:
 
-If you want later to decrypt the zip-file 'docs.enc' change to the folder where the zip-file is and execute the following command:
-
-```shell
-:~$  unzipAndDencrypt docs.enc
+```bash
+bash gen-cygwin-profile.sh
 ```
-You will be prompted to enter the password for the decryption of the zip-file. 
-If the password is correct the zip-file 'docs.enc' will be unzip in the current folder.
+
+### 🧹 2. Use the System Cleanup Functions
+
+The following maintenance functions are available in your profile:
+
+```bash
+cleanup             # Runs an OS-specific cleanup (apt, pacman, etc.)
+cleanupThumbnails   # Clears the thumbnail cache (~/.cache/thumbnails/*)
+```
+
+> ✅ These functions automatically detect your operating system (Ubuntu, Debian, Manjaro, Arch, etc.)
+
+### 🔄 3. Reload Your Shell Config
+
+After generating the new `.bashrc` or `.zshrc`, activate the changes:
+
+```bash
+source ~/.bashrc
+# or
+source ~/.zshrc
+```
+
+---
+
+## 📌 Recommendations
+
+- Automate the setup with an `install.sh` script
+- Use `cron` or a `systemd` timer to run cleanup tasks regularly
+- Version control your dotfiles with Git
+
+---
+
+## 📄 License
+
+See [`LICENSE.txt`](./LICENSE.txt)
+
+---
+
+## 🔐 .zipping
+
+To zip a folder or file, you can use the alias functions provided in the `.zipping` script. If not already sourced, make
+sure to import these aliases into your `.profile`.
+
+### 🔒 Example: Zip and Encrypt
+
+Suppose you have a folder `/home/johndoe/docs` that you want to zip and encrypt. First, change to the user's home
+directory:
+
+```bash
+cd /home/johndoe
+zipAndEncrypt docs/ docs.enc
+```
+
+You will be prompted twice to enter a password for encryption. If successful, the output will be the encrypted zip file
+`docs.enc`.
+
+### 🔓 Example: Unzip and Decrypt
+
+To decrypt and unzip the file later, go to the folder where `docs.enc` is located and run:
+
+```bash
+unzipAndDencrypt docs.enc
+```
+
+You will be asked for the decryption password. If correct, the archive will be extracted in the current directory.
