@@ -1,5 +1,5 @@
 [versions]
-assertj-core-version = "3.27.3"
+assertj-core-version = "3.27.7"
 commons-text-version = "1.13.0"
 equalsverifier-version = "3.19.1"
 file-worker-version = "19.0"
