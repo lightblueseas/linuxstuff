@@ -61,19 +61,11 @@ publishing {
             }
         }
     }
-    repositories {
-        maven {
-            if (releaseVersion) {
-                credentials {
-                    setUsername(System.getenv("$projectRepositoriesUserNameKey") ?: project.property("$projectRepositoriesUserNameKey") as String)
-                    setPassword(System.getenv("$projectRepositoriesPasswordKey") ?: project.property("$projectRepositoriesPasswordKey") as String)
-                }
-            }
-            def releasesRepoUrl = "$projectRepositoriesReleasesRepoUrl" as Object
-            def snapshotsRepoUrl = "$projectRepositoriesSnapshotsRepoUrl" as Object
-            setUrl(releaseVersion ? releasesRepoUrl : snapshotsRepoUrl)
-        }
-    }
+    // No remote repository here any more: the block that stood here addressed OSSRH
+    // (oss.sonatype.org), which Sonatype shut down on 2025-06-30, and read its credentials from the
+    // environment variables ossrhUsername/ossrhPassword while the build was configured. Publishing to
+    // Maven Central goes through the Central Portal now; the family's form is the nmcp setup in
+    // lightblueseas/email-tails gradle/publishing.gradle.
 }
 
 signing {
